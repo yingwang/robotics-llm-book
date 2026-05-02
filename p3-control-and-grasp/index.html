@@ -12,13 +12,13 @@
         <meta name="author" content="Ying Wang">
       
       
-        <link rel="canonical" href="https://yingwang.github.io/robotics-llm-book/01-end-to-end/">
+        <link rel="canonical" href="https://yingwang.github.io/robotics-llm-book/p3-control-and-grasp/">
       
       
-        <link rel="prev" href="../p3-control-and-grasp/">
+        <link rel="prev" href="../p2-perception-and-localization/">
       
       
-        <link rel="next" href="../02-perception/">
+        <link rel="next" href="../01-end-to-end/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>第 1 章 端到端与分层 - 把语言模型装进机器人</title>
+        <title>前置 3 控制与抓取 - 把语言模型装进机器人</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1" class="md-skip">
+        <a href="#3" class="md-skip">
           跳转至
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              第 1 章 端到端与分层
+              前置 3 控制与抓取
             
           </span>
         </div>
@@ -381,8 +381,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -401,13 +403,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -428,7 +428,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -499,103 +499,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../p3-control-and-grasp/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    前置 3 控制与抓取
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    第一部分 框架变了
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    第一部分 框架变了
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -615,7 +518,7 @@
   <span class="md-ellipsis">
     
   
-    第 1 章 端到端与分层
+    前置 3 控制与抓取
   
 
     
@@ -633,7 +536,7 @@
   <span class="md-ellipsis">
     
   
-    第 1 章 端到端与分层
+    前置 3 控制与抓取
   
 
     
@@ -662,6 +565,105 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
+        控制是什么：每秒一千次的反馈循环
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PID：最古老但仍最常用的控制器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阻抗控制：把机械臂当弹簧+阻尼器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        力控 vs 位控
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spline-dmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        轨迹：从 spline 到 DMP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        抓取：把"那个东西拿起来"翻译成关节角
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        抓取的难在哪：第 4 章的开场题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动机器人的控制：导航栈
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        几个该有的直觉
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         练习
       
     </span>
@@ -673,6 +675,103 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一部分 框架变了
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一部分 框架变了
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-end-to-end/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 章 端到端与分层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1290,6 +1389,105 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
+        控制是什么：每秒一千次的反馈循环
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PID：最古老但仍最常用的控制器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阻抗控制：把机械臂当弹簧+阻尼器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        力控 vs 位控
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spline-dmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        轨迹：从 spline 到 DMP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        抓取：把"那个东西拿起来"翻译成关节角
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        抓取的难在哪：第 4 章的开场题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动机器人的控制：导航栈
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        几个该有的直觉
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         练习
       
     </span>
@@ -1317,125 +1515,123 @@
   
 
 
-<h1 id="1">第 1 章 端到端与分层<a class="headerlink" href="#1" title="Permanent link">&para;</a></h1>
+<h1 id="3">前置 3 · 让机器人动起来、抓住东西<a class="headerlink" href="#3" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>这一波具身浪潮里只有一个真正贯穿的判断题：<strong>这件事该让一个网络从像素一路吐到电机，还是该拆成几层？</strong>回答它需要先理解端到端到底买到了什么、没买到什么。</p>
+<p>第三章是给从 ML 这一边过来的读者补控制和抓取基础。<strong>控制是机器人世界里最不像 ML 的那一块</strong>：它实时、连续、跟物理硬耦合，调起来跟训模型完全是两种节奏。先有体感再去读 VLA 那一线 paper 会顺很多。</p>
 </blockquote>
 <hr />
-<p>2010 年代的机器人栈长这样：摄像头进来，第一层做感知（detection、segmentation、6-DoF 位姿估计），第二层做规划（grasp planner、motion planner、轨迹优化），第三层做控制（PD、impedance、力控）。每一层有自己的输入输出、自己的算法、自己的失败模式。每一层之间用一个固定的中间表示连接：bounding box、grasp pose、joint trajectory。</p>
-<p>这个架构的好处是<strong>每一层可以分开调试</strong>。grasp planner 出问题，你不会去重训 detector。motion planner 撞墙了，你换个 collision checker 就完事。每一层都有几十年的工程积累，每一层都有 benchmark，每一层都能写 unit test。</p>
-<p>代价是<strong>中间表示是一个瓶颈</strong>。grasp planner 拿到的只是 bounding box，看不见物体表面是软的还是硬的、把手是哪一边、有没有结冰、握太紧会不会捏变形。这些信息在感知阶段就被压成几个数字扔了，到了规划阶段已经追不回来。所以经典栈擅长抓刚体方块，不擅长抓毛巾、塑料袋、装着水的杯子。</p>
-<pre class="mermaid"><code>flowchart LR
-  CAM[相机/LIDAR] --&gt; P[感知层&lt;br/&gt;detection&lt;br/&gt;segmentation&lt;br/&gt;6-DoF pose]
-  P --&gt;|bbox / pose| PL[规划层&lt;br/&gt;grasp planner&lt;br/&gt;motion planner]
-  PL --&gt;|joint trajectory| C[控制层&lt;br/&gt;PD / impedance&lt;br/&gt;力控]
-  C --&gt; M[电机]</code></pre>
-<p>LLM 那一套出来之后改变的不是某一层。改变的是<strong>每一层的中间表示都可以由网络自己挑</strong>。</p>
-<p>RT-1（Brohan 等，Google，2022 年底）是第一篇说"我们不要分层了，从图像和语言指令直接吐 7-DoF action"的工作，并且真的用 13 万条 teleop 数据让它在多个任务上跑起来。RT-2（2023 年中）把背骨换成 PaLM-E 这种已经在互联网图文上预训过的 VLM，参数从亿级涨到 55B，证明了一件事：<strong>互联网常识可以直接迁移到机器人</strong>。RT-2 第一次能对它从没见过的物体说出合理的 action，比如要它把"灭绝的动物"放进盒子，它会去抓桌上那只玩具恐龙。</p>
-<p>2024 年这一线快速分叉。Stanford 的 OpenVLA 把模型缩到 7B 并开源，让所有学校都能 fine-tune。Octo（Berkeley）走 transformer + diffusion head 的路线。Physical Intelligence 在 2024 年 10 月发布的 π0 把动作空间从离散 token 换回连续 flow matching，在双臂折衣服这种长序列任务上做到了第一段大众觉得"这真的不像 demo"的视频。2025 年初 PI 又出了 π0-FAST 把推理频率拉上来。NVIDIA 那边 GR00T 这条线想做 humanoid 通用基础模型。Figure 自家的 Helix 把视觉、语言、控制全合到一个网络里。</p>
-<p>这一两年对外的分歧看起来很热闹，但底下都在赌同一件事：<strong>够大的网络 + 够多的演示数据 = 通用具身</strong>。</p>
+<h2 id="_1">控制是什么：每秒一千次的反馈循环<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>ML 人写一个推理脚本，输入 → 模型 → 输出，跑完就完。机器人控制不是这样。控制是<strong>一个永远在跑的循环</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>while 机器人开着:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    读传感器 (编码器、IMU、力)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    算误差 (实际 vs 期望)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    根据误差出控制量 (电流、力矩)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    打到电机
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    等下一周期 (typical 1ms)
+</code></pre></div>
+<p>这个循环跑得越快越稳，机器人的动态性能越好。工业级伺服一般 1kHz（每毫秒一次）。家用人形受限于电池和算力，关节级伺服 1-4kHz，更高层规划 100Hz，更上一层任务规划 1-10Hz。</p>
+<p><strong>频率分层是机器人控制的灵魂</strong>。低层快、高层慢，每一层只解自己时间尺度的问题。机器人的思维结构跟 LLM 完全反过来：LLM 一次思考几秒钟出一段话，机器人是一秒钟做一千次微小决策。</p>
+<p>ML 类比：<strong>实时控制循环 ≈ 一个永远不停的 forward pass，每个 forward 必须在 1ms 内完成，不允许 GC 卡顿，不允许 cache miss 大波动</strong>。这是为什么机器人控制至今几乎从不在 Python 里跑，全部 C++ 实时线程或更底层。</p>
 <hr />
-<p>赌赢的部分要承认。</p>
-<p>端到端的网络买到了几样<strong>经典栈写不出来的能力</strong>。</p>
-<p>第一是<strong>接触模式的连续推断</strong>。把毛巾抓起来需要在抓的同时感受布料的变形，调整握力。这件事经典栈做不出来，因为"布料在我手里现在变形了多少"这种信息没有简单的中间表示。一个端到端网络从触觉 + 视觉 + 本体感觉里学到这种映射，不需要谁把它写成方程。</p>
-<p>第二是<strong>多模态线索的融合</strong>。你跟机器人说"把那个红色的、靠左边那个杯子拿过来"，端到端网络可以同时处理颜色、位置、指代。经典栈做这件事要把语言解析成 attribute filter 喂给 detector，每加一种线索就要加一段代码。</p>
-<p>第三是<strong>风格的稳定性</strong>。同一个动作，端到端网络出来的轨迹平滑、速度合理、有人手的节奏感。经典栈出来的轨迹是一段段 spline 拼的，机械感重。这件事在工业上无所谓，在家庭和服务机器人面前就是用户买不买账的差别。</p>
-<p>这三件事加起来，是 RT-2 / π0 这一线给整个领域带来的真东西。<strong>不是替代经典栈，是补上了经典栈一直补不上的缺口</strong>。</p>
+<h2 id="pid">PID：最古老但仍最常用的控制器<a class="headerlink" href="#pid" title="Permanent link">&para;</a></h2>
+<p>PID (Proportional-Integral-Derivative) 是控制论第一节课的内容，也是工业上 80% 的真实控制器还在用的形式。</p>
+<p>设你想让一个关节从当前角度 q 转到目标角度 q*，定义误差 <code>e = q* - q</code>。PID 给出控制量 u（送给电机的指令）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>u = Kp * e + Ki * ∫e dt + Kd * de/dt
+</code></pre></div>
+<ul>
+<li><strong>P (proportional)</strong>：误差越大，使劲越大。直观，但纯 P 控制会震荡。</li>
+<li><strong>I (integral)</strong>：累积过去的误差，消除稳态偏差（系统稳定后还差一点点的"那一点"）。</li>
+<li><strong>D (derivative)</strong>：根据误差变化率提前减速，抑制超调和震荡。</li>
+</ul>
+<p>调三个增益 (Kp, Ki, Kd) 是个手工活儿。Ziegler-Nichols 给了一套规则，但工业上多数靠工程师试。<strong>PID 调得好的人在工厂里仍然是抢手货</strong>。</p>
+<p>PD 是 PID 去掉 I。机械臂位置控制经常用 PD（电机摩擦小，I 不那么必要），力控经常用 PI（要消除稳态力误差）。</p>
+<p>ML 类比：<strong>PID ≈ 一个手工调过的、状态量是误差和误差累积的、单步执行的控制策略</strong>。一个神经网络当然可以学到它的行为，但学一个 PD 一致性 = 一段轨迹永远稳定收敛 = 这件事是非平凡的。<strong>很多 VLA 跑出来的轨迹之所以"有点抖"、"在终点附近犹豫"，本质上是它没学到 PID 那种简洁的反馈律</strong>。</p>
 <hr />
-<p>赌输的部分也要承认。</p>
-<p>端到端到现在解决得很差的事情，主要是三类。</p>
-<p><strong>长程任务</strong>。"把厨房收拾干净"这种 5-10 分钟的任务，端到端网络做不下来。原因不是参数量不够，是数据里几乎没有这种长度的连续轨迹。teleop 收集长程数据的成本是分钟级演示的 50-100 倍，你拿不到足够多。π0 在折衣服上能跑接近 5 分钟连续动作已经是当前 SOTA，再长就开始崩。</p>
-<p><strong>异常恢复</strong>。东西没抓住、抓滑了、抓错了一个，端到端网络的反应通常是继续按原计划走，或者走样到一个谁也没见过的状态卡死。原因是 teleop 数据里都是成功演示，失败和恢复的轨迹被人删掉了。最近几篇 paper 试着加 failure recovery 数据（比如 RT-Trajectory），有一定改善，但远没到能在客户家放心跑的程度。</p>
-<p><strong>结构化推理</strong>。"先拆掉外包装，再打开瓶盖，再倒一杯，再把瓶子放回去"这种带顺序的子任务链，端到端做得很糟。它能在每一步演示过的子动作里表现合理，但子动作之间该谁先谁后，它没有一个稳定的内部表示。</p>
-<p>这三件事有一个共同点：<strong>它们需要的不是更多数据，是某种形式的层级</strong>。</p>
+<h2 id="_2">阻抗控制：把机械臂当弹簧+阻尼器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>阻抗控制 (impedance control) 是机器人和环境接触时用的核心控制律。</p>
+<p>直觉是这样：你不想让机械臂"硬"，因为硬的机械臂撞到东西会损坏物体或者关节。你想让它"软"，像一根带阻尼的弹簧。给定期望位置 x*、当前位置 x、当前速度 v，阻抗控制把机械臂的动力学整成：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>F = K * (x* - x) - D * v
+</code></pre></div>
+<ul>
+<li>K 是刚度（弹簧硬度）。K 大 = 抗外力强、跟踪准，K 小 = 软、安全。</li>
+<li>D 是阻尼系数。D 大 = 不容易震荡，D 小 = 响应快。</li>
+</ul>
+<p>这个公式让末端表现得像一个二阶机械系统：弹簧拉它去 x<em>，阻尼防止它震荡。</em><em>外力推它，它会让一让，松开手它弹回来</em>*。</p>
+<p>阻抗控制要工作，硬件上必须<strong>真的能感受到力</strong>。要么有 link-side 关节力矩传感器（KUKA LBR iiwa, Franka Panda），要么有末端 F/T sensor。<strong>没有这些传感器的机器人做"impedance control"基本上是装的</strong>：靠电机电流反推力矩，误差 30-50%，碰人时反应慢半拍。</p>
+<p>阻抗的对偶叫 admittance control（导纳控制），公式反过来：测力，输出位置/速度。两者哪个用看场景，KUKA 这种 link-torque 平台天然适合阻抗，工业插销装配机器人天然适合导纳。</p>
+<p>VLA 跟阻抗控制的关系：<strong>当前 VLA 的输出层都是位置或末端位姿，下游接一个 impedance controller 把它变成实际电机指令</strong>。这一层是绝大多数 VLA paper 不写但每家公司都在用的真东西。</p>
 <hr />
-<p>所以 2024 年中之后，分层悄悄回来了。但回来的方式跟 2010 年代不一样。</p>
-<p>新分层是这样：<strong>LLM 当 high-level planner，VLA 当 mid-level skill executor，经典控制器兜底当 safety layer</strong>。</p>
-<p>LLM 那一层做的事是把"把厨房收拾干净"拆成"把碗放进水池 → 把瓶子放进回收箱 → 把面包放进面包盒 → 用抹布擦桌子"这样的子任务序列。这件事 GPT-4 / Claude 在 2023 年就能做得很好（Google 的 SayCan 是开山之作，2022 年）。重点不在 LLM 多聪明，在它生成的子任务能不能跟下面的 VLA 接上。</p>
-<p>VLA 那一层执行每一个子任务。每一段控制时长大概 30-90 秒，正好是当前 VLA 在 demo 里能稳定跑的窗口。这一层是真东西被造出来的地方。</p>
-<p>经典控制器那一层做两件事：<strong>一是关节力矩限幅</strong>，二是<strong>阻抗控制下的接触安全</strong>。你可以把这一层理解成"无论上面那两层怎么疯，这一层保证不会把人砸坏、把物体捏碎、把自己烧掉"。这件事 LLM 和 VLA 都做不了，因为它们的输出本身没有物理保证。</p>
-<p>这种三层结构在 2025 年的工业部署里几乎是默认选择。Figure 的 Helix 看起来是端到端，但仔细看 paper 也分成 system 1 和 system 2。1X 的 NEO 在家庭场景里跑的是高度分层的栈，VLA 只在某些子任务里用。Tesla 的 Optimus 走得更保守，到现在大段动作还是规划+控制，VLA 只用在抓取片段里。</p>
-<pre class="mermaid"><code>flowchart TB
-  U[语言指令&lt;br/&gt;'把厨房收拾干净'] --&gt; L[LLM planner&lt;br/&gt;拆子任务序列]
-  L --&gt;|sub-task 1&lt;br/&gt;30-90s| V[VLA skill executor&lt;br/&gt;RT-2 / π0 / Helix]
-  L --&gt;|sub-task 2| V
-  L --&gt;|sub-task N| V
-  V --&gt;|关节命令| S[安全层&lt;br/&gt;力矩限幅 / 阻抗 / e-stop]
-  S --&gt; M[电机]
-  V -.-&gt;|失败信号 / 进度| L</code></pre>
+<h2 id="vs">力控 vs 位控<a class="headerlink" href="#vs" title="Permanent link">&para;</a></h2>
+<p>控制目标只有两类：</p>
+<p><strong>位控 (position control)</strong>：让关节或末端去到指定位置。工业搬运、精确装配、画线这类任务。
+<strong>力控 (force control)</strong>：让关节或末端施加指定力。打磨、抛光、按压这类任务。</p>
+<p>混合的叫 <strong>hybrid position/force control</strong>：在某些方向位控，某些方向力控。比如擦桌子：垂直方向力控（保证压力），水平方向位控（沿轨迹走）。</p>
+<p>阻抗/导纳控制是位控和力控之间的连续插值。K 无穷大就是纯位控，K = 0 就是纯力控。</p>
+<p>跟 VLA 的接口问题：<strong>当前 VLA 几乎全部输出位置类指令</strong>，原因是 teleop 数据收的也是位置。要训一个直接输出力的 VLA 在数据上很难凑齐：人类操作员遥控时也是按位置思考，不是按力。这是触觉/力觉数据稀缺这件事的另一面。</p>
 <hr />
-<p>那么具体到一个项目，怎么判断？</p>
-<p>下面这张判断表是这两年我自己用顺手的：</p>
-<table>
-<thead>
-<tr>
-<th>任务特征</th>
-<th>倾向端到端</th>
-<th>倾向分层</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>持续时间 &lt; 60 秒</td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>持续时间 &gt; 3 分钟</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>接触很多、力控敏感</td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>需要明确的子步骤顺序</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>物体形变大（布、绳、食物）</td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>需要把失败状态报告给上层</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>有现成的 1k+ 演示数据</td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>没有演示数据但能写规则</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>失败的安全代价高（接触人、贵重物）</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>失败可以重试</td>
-<td>✓</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>不是每一行都同等重要。最重要的两条是<strong>持续时间</strong>和<strong>失败代价</strong>。这两条任意一个偏向分层，整体就该分层，哪怕其他几行偏向端到端。</p>
-<p>举个具体例子。一个家庭折毛巾的机器人，单次动作 40 秒，毛巾形变大，掉在地上可以重捡，演示数据相对好收。这种就该端到端。一个家庭整理乱厨房的机器人，单次任务 5-10 分钟，子步骤顺序明确，万一把刀掉地上很危险。这种必须分层，<strong>LLM 当 planner，VLA 只在每个 30 秒的子任务里用</strong>。</p>
-<p>最后给一个工程信号：如果你正在 fine-tune 一个 VLA，已经收了超过一万条演示数据，效果还是没法稳定通过验收，<strong>这通常不是数据不够的信号，是任务该分层的信号</strong>。把它拆成 3 个子任务，每个子任务用三千条数据 fine-tune 一个小一点的策略，加一层 LLM planner 把它们串起来，往往一周内就能解决。</p>
+<h2 id="spline-dmp">轨迹：从 spline 到 DMP<a class="headerlink" href="#spline-dmp" title="Permanent link">&para;</a></h2>
+<p>机器人怎么表示"从 A 走到 B 的一条具体路径"？</p>
+<p><strong>直线插值</strong>。最朴素：在关节空间或笛卡尔空间从起点到终点匀速插值。简单，但加速度不连续，机器人会"顿一下"。</p>
+<p><strong>多项式 / spline</strong>。三次或五次多项式让位置、速度、加速度都连续。是工业机械臂最常用的轨迹表示。MoveIt 和大部分商用控制器内部都在用这个。</p>
+<p><strong>B-spline / NURBS</strong>。控制点 + 基函数，平滑性好，常见于 CNC 加工和 3D 打印。</p>
+<p><strong>Dynamic Movement Primitives (DMP)</strong>。Stefan Schaal 那一派 2002 年开始推的：一个轨迹由一个吸引子动力系统加一个学得到的 forcing term 组成。优点是能从一次示范学一段轨迹然后泛化到不同起点和终点。这是 imitation learning 的早期主流，2010 年代被 deep learning 那一波部分取代。</p>
+<p><strong>神经网络轨迹</strong>。Diffusion Policy、π0 这一波直接让网络生成一段连续动作。本质是把"轨迹应该长什么样"完全交给数据驱动。</p>
+<p>ML 类比：<strong>轨迹 ≈ 一个时间序列的输出</strong>。spline / DMP 是手工设计的归纳偏置，神经网络轨迹是数据驱动。这个谱跟 NLP 里"模板生成 → seq2seq → 大语言模型"的演进是一样的。</p>
 <hr />
-<h2 id="_1">练习<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p><strong>重读 RT-2 paper 一次</strong>，但这次只读 limitations 和 failure cases 那几节，不读架构和数据。这一节里 Google 自己承认了哪些事？</p>
-<p><strong>找一个你最熟悉的具身 demo video</strong>（任意公司、任意时间），按表格里的 10 行打分。它的实际选择跟你打分的结果一致吗？如果不一致，是公司选错了，还是你对任务的理解不准？</p>
-<p><strong>找一个你以为是端到端的工作</strong>（比如 Helix、π0、GR00T），把它的 system diagram 画在纸上，看里面真的没有任何分层吗？大多数情况你会发现里面有。把它有几层、每层处理多长时间标出来。</p>
-<p>下一章：<a href="../02-perception/">第 2 章 感知</a></p>
+<h2 id="_3">抓取：把"那个东西拿起来"翻译成关节角<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>抓取是机器人 manipulation 这一行的祖传难题。第 4 章会用整章解构它的现状，这里只立基本词汇。</p>
+<p><strong>抓取问题的输入</strong>：场景中一个目标物体（可能是给定的，可能要 detection 找出来）。
+<strong>抓取问题的输出</strong>：一组关节命令，让夹爪在合适的姿态、合适的位置闭合，把物体带起来。</p>
+<p>中间需要确定的几样东西：</p>
+<p><strong>抓取位姿 (grasp pose)</strong>。夹爪在什么姿态下闭合。最常用的表示是 6-DoF：(x, y, z, roll, pitch, yaw)，告诉你夹爪中心的位置和朝向。两指夹爪还要再加一个夹爪开度 (gripper width)。</p>
+<p><strong>抓取类型</strong>。</p>
+<ul>
+<li><strong>平行夹 (parallel-jaw / two-finger)</strong>。最常见。两个平行的指头从两侧合拢。受限于物体形状。</li>
+<li><strong>吸盘 (suction)</strong>。靠真空吸住一个平面。Amazon 仓库里几百万件每天靠吸盘搬。要求物体表面够光滑、够气密。</li>
+<li><strong>多指 (multi-finger)</strong>。3-5 指。能做复杂的握持，但贵、易坏、控制难。第 4、11 章详谈。</li>
+<li><strong>软夹爪 (soft gripper)</strong>。硅胶气动，能抓鸡蛋、草莓。代价是力的精度低。</li>
+</ul>
+<p><strong>抓取规划的核心定理：force closure 和 form closure</strong>。</p>
+<ul>
+<li><strong>力闭合 (force closure)</strong>：在足够的摩擦下，夹爪能抵抗物体上任何方向的外力。等价说法：摩擦锥的并集覆盖整个力空间。一只手抓水杯就是这种。</li>
+<li><strong>形闭合 (form closure)</strong>：靠夹爪几何就锁住物体，不依赖摩擦。两指夹爪夹一根带把手的螺丝刀，从把手上方夹住把手，就是形闭合。</li>
+</ul>
+<p>工业上大多数 grasp planner 算的就是"找一对接触点，让两指夹爪在这对点上闭合时是 force closure"。这是 Dex-Net、GG-CNN、6-DoF GraspNet 这一系工作的数学骨架。</p>
+<p><strong>Antipodal grasp</strong> 是 force closure 在两指夹爪上的简化形式：两指连线穿过物体重心，每只指头的接触法线指向对方，闭合时摩擦锥能抵消所有外力。这个简化让搜索空间从无限维降到几个参数。</p>
+<hr />
+<h2 id="4">抓取的难在哪：第 4 章的开场题<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>bin picking 大致解了，家庭抓取没解</strong>。这件事第 4 章会展开论证。这里先给四条直觉：</p>
+<p><strong>第一，物体多样性</strong>。仓库 SKU 有限，家里物体无限。一个外卖塑料袋、一个用过的口罩、一只装了两口酒的红酒杯，每一件的力学行为都跟训练集里相差很远。</p>
+<p><strong>第二，接触动力学</strong>。bin picking 多数是刚体，刚体接触有干净的数学模型。家里一半物体不是刚体：水会晃出来，薯片袋会被捏破，巧克力会化在手指上。这些都不是 grasp planner 能在 force closure 公式里写进去的。</p>
+<p><strong>第三，姿态约束</strong>。bin picking 怎么抓都行，下一步是丢进盒子。家里很多物体有"必须这样抓"的方向：刀握刀柄、热咖啡握把手、刚出锅的鸡腿不抓断骨那一头。这些是 task-conditioned grasping 的范畴，远超 force closure。</p>
+<p><strong>第四，触觉信号缺失</strong>。视觉只能看到表面，告诉你不了"这一袋东西多重"、"这个豆腐多软"、"我刚才抓的时候是不是已经在滑了"。第 4 章会展开为什么触觉是最关键也最缺数据的一层。</p>
+<p>ML 类比：<strong>抓取像一个 multi-modal、long-tail、physics-grounded 的预测任务</strong>。它的难度不在"模型不够大"，是物理世界本身的分布外比互联网图文严重得多。</p>
+<hr />
+<h2 id="_4">移动机器人的控制：导航栈<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>机器人会走路或会走轮子时，控制问题升一维。</p>
+<p><strong>轮式底盘</strong>。控制相对简单。差速底盘（左右两轮独立驱动）的运动学是个二维非完整约束系统（不能横移）。麦克纳姆轮 (Mecanum) 加四轮特殊滚子可以原地横移和旋转，全方向移动，但效率低、磨损快。阿克曼底盘（汽车那种）转弯半径有最小限制。</p>
+<p><strong>腿式机器人</strong>。控制阶跃式难起来。每一步要做：摆动腿规划、支撑腿力分配、躯干姿态控制、ZMP 约束（保证重心在支撑面里）、足底接触相位切换。30 年的研究让这件事在四足上接近"产品化"（Boston Dynamics Spot、ANYmal、Unitree Go2 都到了"插电就能用"），但双足仍然是研究前沿。Honda ASIMO、Boston Dynamics Atlas、Tesla Optimus 这一线推了几十年，到 2025 年才有几款双足能在不平地形上稳定走 30 分钟以上。</p>
+<p><strong>导航栈 (navigation stack)</strong>。让机器人从 A 走到 B 这件事在工业上有标准化的实现。ROS Nav2 是事实标准，里面包括：global planner（全局路径规划，A* / Dijkstra）、local planner（局部规划，DWB / TEB / MPPI）、costmap（代价地图叠加静态和动态障碍）、recovery behaviors（卡住时的恢复策略）。第 5 章会详谈。</p>
+<p><strong>MPC (Model Predictive Control)</strong>。这一波在双足和四足里很热。MPC 的思路是：在每个控制周期内，根据当前状态预测未来一小段时间内系统的演化，求解一个最优控制问题，执行第一步，下个周期再来一次。在腿式机器人上 MPC 算的频率通常 50-200Hz，每一步规划 200-1000ms 的未来。Boston Dynamics、ETH ANYmal、MIT Cheetah 那条线都重度依赖 MPC。</p>
+<p>ML 类比：<strong>MPC 跟 receding horizon 是同一个心智模型</strong>。VLA 输出 action chunk + 只执行前几步 + 重新预测，这件事直接借了 MPC 的思想。</p>
+<hr />
+<h2 id="_5">几个该有的直觉<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>把这一章压成几句 takeaway：</p>
+<ul>
+<li><strong>机器人控制是个永不停止的实时反馈循环</strong>。1kHz 是工业级关节伺服的常见频率，30Hz 是 VLA 当前甜点。频率高低决定能做什么任务。</li>
+<li><strong>PID/PD 是工业上至今 80% 的控制律</strong>。VLA 的精细度在很多任务上还学不到 PID 那种简洁。</li>
+<li><strong>阻抗控制让机器人变软</strong>。但要工作必须有真力传感器。</li>
+<li><strong>抓取是 multi-modal long-tail 物理任务</strong>。bin picking 解了，家庭没解。</li>
+<li><strong>MPC ↔ receding horizon ↔ action chunk</strong> 是一回事的不同时代说法。</li>
+<li><strong>腿式机器人控制比轮式难一阶</strong>。双足比四足再难一阶。这件事跟 DoF 多无关，跟支撑面约束有关。</li>
+</ul>
+<hr />
+<h2 id="_6">练习<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p><strong>找一个 PID 在线模拟器</strong>（网上很多 Java applet 风格的），手动调 Kp、Ki、Kd 让一个一阶系统稳定收敛到目标值。<strong>亲手把 D 调过头让系统震荡起来</strong>，亲手把 I 调过头让系统超调，对这三个增益的物理意义建立体感。比读完 Åström 那本书再去调实机省半年。</p>
+<p><strong>读 Franka Emika Panda 的 user manual</strong> 里关于 Cartesian impedance 的章节。Panda 是这一档机器人里 impedance control 实现得最干净的，他们的 manual 也写得最清楚。<strong>读一份真实工业机器人的 manual，比读十篇 paper 让你对控制的工程现实更接近</strong>。</p>
+<p><strong>找一段 Boston Dynamics Atlas 跑酷的视频</strong>（2023-2024 年那几段）。看一遍，再看一遍它每次起跳前躯干和腿的协调。然后想一件事：<strong>这里面 99% 的算法是经典控制 + MPC</strong>，没有 LLM、没有 diffusion、没有 VLA。具身这一行最炫的视觉效果至今多数还来自经典栈，不要被 demo 视频里"机器人很聪明"的印象骗到。</p>
+<p><strong>比较 Universal Robots UR5e 和 Franka Panda</strong> 的 spec sheet。两台都是协作机械臂，但定位不同。把 payload、reach、repeatability、compliance type、价格列出来看。<strong>这件事比"哪个跑得快"更影响公司选型决定</strong>。</p>
+<p>下一章：<a href="../01-end-to-end/">第 1 章 端到端与分层</a></p>
 
 
 

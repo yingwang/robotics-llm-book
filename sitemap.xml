@@ -64,4 +64,16 @@
          <loc>https://yingwang.github.io/robotics-llm-book/14-five-years/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
+    <url>
+         <loc>https://yingwang.github.io/robotics-llm-book/p1-shape-and-kinematics/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://yingwang.github.io/robotics-llm-book/p2-perception-and-localization/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://yingwang.github.io/robotics-llm-book/p3-control-and-grasp/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
 </urlset>
