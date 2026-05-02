@@ -8,7 +8,7 @@
 
 2026 年初，一台 Tesla Optimus Gen 2 整机 BOM 工业估价大约 5 万到 8 万美元；Figure 02 同量级；1X NEO 家庭版报价 2 万美元（补贴价）；Unitree G1 教育版 1.6 万美元起；H1 9 万美元起。这些都是双足人形。
 
-同时期一台主流仓储 AMR（Locus、Geek+、Fetch 那一档）整机 1.5 万到 4 万美元，里面带一只 6-7 DoF 的 collaborative arm（UR5e、Franka Research 3 那一档）再加 2 万到 5 万美元。**总共 4 万到 9 万美元**就能拿到一台轮式 + 单臂的工业平台。表面看价格类似，但**MTBF 差一个数量级**：Locus 的轮式平台报修间隔几千小时，UR 的胳膊出厂保 35000 小时；同期 Optimus / Figure / G1 在公开报道里的连续工作时间还在几十小时这个量级，跌一次倒地修一次。
+同时期一台主流仓储 AMR（autonomous mobile robot，自主移动机器人）（Locus、Geek+、Fetch 那一档）整机 1.5 万到 4 万美元，里面带一只 6-7 DoF（degrees of freedom，自由度，独立可动的轴数）的 collaborative arm（UR5e、Franka Research 3 那一档）再加 2 万到 5 万美元。**总共 4 万到 9 万美元**就能拿到一台轮式 + 单臂的工业平台。表面看价格类似，但**MTBF 差一个数量级**：Locus 的轮式平台报修间隔几千小时，UR 的胳膊出厂保 35000 小时；同期 Optimus / Figure / G1 在公开报道里的连续工作时间还在几十小时这个量级，跌一次倒地修一次。
 
 速度方面也不站在双足这一边。仓储 AMR 巡航速度 1.5-2 m/s，载重 50-200 kg；Optimus Gen 2 最高步速 0.6 m/s，载重 20 kg；G1 步速 1.2 m/s，载重 5 kg；Digit（Agility Robotics）2.0 m/s，载重 16 kg。**双足在做"人能做的事"，但做得更慢、更贵、更易坏**。
 
@@ -20,7 +20,7 @@
 
 自由度的代价是超线性的。
 
-Optimus Gen 2 大概 28 DoF，Figure 02 30 出头，1X NEO 跟 G1 23 个，H1 19 个。每多一个 DoF，要多加一组电机、减速器、编码器、电流环 driver、布线、热管理、动力学辨识、安全限位。
+Optimus Gen 2 大概 28 DoF，Figure 02 30 出头，1X NEO 跟 G1 23 个，H1 19 个。每多一个 DoF，要多加一组电机、减速器（把电机高转速换成低转速大扭矩）、编码器、电流环 driver、布线、热管理、动力学辨识、安全限位。
 
 **成本不是线性涨**。一个机械臂的成本里，电机加减速器占 60-70%，每加一个 DoF 大概多 1500-3000 美元（看精度和扭矩）。但**控制难度是组合爆炸**：n 自由度的雅可比、奇异点、自碰撞检测、whole-body 控制全是 O(n²)-O(n³)；teleop 数据收集时人手能直觉控好的 DoF 大概 10-12 个，过了这个数操作员开始顾此失彼，演示数据质量崩。
 
@@ -34,7 +34,7 @@ Optimus Gen 2 大概 28 DoF，Figure 02 30 出头，1X NEO 跟 G1 23 个，H1 19
 
 主流方案有这么几种。
 
-**BLDC + 谐波减速器**。BLDC 电机 + Harmonic Drive LLC 那种 wave generator + flexspline 的减速结构。优点是减速比能做到 50-100，背隙近乎零，扭矩密度极高。缺点是贵（一颗 100Nm 级谐波减速器 1500-3000 美元），效率 70-85%，不可反向驱动（backdrivability 差，意味着关节卡了之后人推不动，安全性差），冲击容忍度低。Universal Robots 全系、ABB YuMi、Franka 的早期型号都是这条路。Optimus 部分关节也是。
+**BLDC（brushless DC，无刷直流电机）+ 谐波减速器（harmonic drive，靠柔轮形变实现高减速比）**。BLDC 电机 + Harmonic Drive LLC 那种 wave generator + flexspline 的减速结构。优点是减速比能做到 50-100，背隙近乎零，扭矩密度（单位重量能给的扭矩）极高。缺点是贵（一颗 100Nm 级谐波减速器 1500-3000 美元），效率 70-85%，不可反向驱动（backdrivability 差，意味着关节卡了之后人推不动，安全性差），冲击容忍度低。Universal Robots 全系、ABB YuMi、Franka 的早期型号都是这条路。Optimus 部分关节也是。
 
 **摆线减速器（cycloidal）**。Nabtesco 在工业领域几十年的标配。比谐波便宜一点，扭矩冲击容忍度好得多，体积稍大，背隙比谐波大。重型工业臂（FANUC、KUKA）大量用。
 

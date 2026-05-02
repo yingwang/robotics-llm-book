@@ -6,7 +6,7 @@
 
 设想一个具体场景。一台 1.7 米、60 公斤的家用人形机器人，在客户家厨房里执行"把咖啡递给爷爷"这个任务。爷爷躺在沙发上没动。机器人端着满杯热咖啡走到沙发边，VLA 看到一个非典型坐姿（爷爷的手垂下来挡住了视线里通常出现的"接咖啡的手"模板），策略走样到一个 OOD 区域，输出了一条把杯子从上往下、贴着爷爷脸往他胸口送的轨迹。轨迹在 URDF 里完全合规，关节限位没破，自碰撞检查通过，规划器没报错。但杯子里 80℃ 的液体根据动力学一定会洒在爷爷脸上。
 
-整个动作前后两秒。alignment 那一套在这两秒里完全没发挥作用，因为没有任何一段文字在这里被生成、被审查、被拒绝。这是一个**纯物理事件**，对应的安全工程是关节力矩限幅、阻抗控制、运行时可达性监控、独立的安全 PLC。这些东西在 LLM 这一派的圈子里基本没人谈，但它们决定了这台机器到底会不会烫到爷爷。
+整个动作前后两秒。alignment 那一套在这两秒里完全没发挥作用，因为没有任何一段文字在这里被生成、被审查、被拒绝。这是一个**纯物理事件**，对应的安全工程是关节力矩限幅、阻抗控制、运行时可达性监控、独立的安全 PLC（safety-rated PLC，硬件级安全控制器）。这些东西在 LLM 这一派的圈子里基本没人谈，但它们决定了这台机器到底会不会烫到爷爷。
 
 这一章的全部论点可以一句话讲完：**具身安全不是 alignment 的延伸，是三类完全不同问题的合集，LLM 那一边只解了其中第三类的一部分**。
 
@@ -14,9 +14,9 @@
 
 把"机器人安全"这个词拆开。它至少包含三件互不替代的事。
 
-**硬件安全**。这台机器在物理层面有没有能力伤害周围的人和物。一个最大输出力矩 500 N·m 的关节，在任何控制策略下都比一个 50 N·m 的关节危险十倍。这一层的工程语言是 torque limit、joint compliance、impedance control、e-stop、过载断电、redundancy、safety-rated PLC（SRP/CS）。背后是 ISO 10218（工业机器人）、ISO/TS 15066（人机协作场景的功率与压力限值）、ISO 13482（个人护理服务机器人）、ANSI/RIA R15.06（北美工业机器人标准）。这一套东西是 ABB、KUKA、Fanuc 卖了三十年的工程内核，跟神经网络一点关系都没有。
+**硬件安全**。这台机器在物理层面有没有能力伤害周围的人和物。一个最大输出力矩 500 N·m 的关节，在任何控制策略下都比一个 50 N·m 的关节危险十倍。这一层的工程语言是 torque limit（力矩限幅）、joint compliance（关节遇到外力会顺势让一点）、impedance control（位置和力的弹簧阻尼模型）、e-stop（急停按钮）、过载断电、redundancy、safety-rated PLC（SRP/CS，独立硬件安全控制器）。背后是 ISO 10218（工业机器人安全标准）、ISO/TS 15066（人机协作场景的功率与压力限值）、ISO 13482（个人护理服务机器人安全标准）、ANSI/RIA R15.06（北美工业机器人标准）。这一套东西是 ABB、KUKA、Fanuc 卖了三十年的工程内核，跟神经网络一点关系都没有。
 
-**软件安全**。给定一个会出错的策略（不管是经典控制器还是 VLA），如何在运行时把它的输出框在一个不会出物理灾难的集合里。这一层的语言是 runtime monitor、reachability analysis、Hamilton-Jacobi safe set、control barrier function (CBF)、shielding。代表人物是 UC Berkeley 的 Claire Tomlin（HJ reachability 这一派的奠基者）、Caltech 的 Aaron Ames（CBF 这一派）、Berkeley 的 Anca Dragan（learned policy + safety filter 这一派）、CMU 的 Changliu Liu（safe set 在协作场景的工程化）。这一层的核心思路是**把"安全"形式化成一个集合，无论上面的策略输出什么动作，先投影到这个集合里再执行**。
+**软件安全**。给定一个会出错的策略（不管是经典控制器还是 VLA），如何在运行时把它的输出框在一个不会出物理灾难的集合里。这一层的语言是 runtime monitor（运行时监控器）、reachability analysis（可达性分析，算系统能跑到哪里）、Hamilton-Jacobi safe set（用偏微分方程算出怎么策略疯都不会出事的状态集合）、control barrier function (CBF，把安全约束写成不等式直接卡住动作)、shielding（盾牌，发现要越界就替换成已证安全的动作）。代表人物是 UC Berkeley 的 Claire Tomlin（HJ reachability 这一派的奠基者）、Caltech 的 Aaron Ames（CBF 这一派）、Berkeley 的 Anca Dragan（learned policy + safety filter 这一派）、CMU 的 Changliu Liu（safe set 在协作场景的工程化）。这一层的核心思路是**把"安全"形式化成一个集合，无论上面的策略输出什么动作，先投影到这个集合里再执行**。
 
 **行为安全**（也就是 alignment 那一派说的那个意思）。给定一个能力很强的策略，怎么让它在意图层面不去做"明明可以做但社会不希望它做"的事。让聊天机器人不写炸弹配方、不冒充医生开处方、不教唆自杀。这一层的工具是 RLHF、constitutional AI、refusal training、red teaming、jailbreak defense。Anthropic 这家公司最大的工程贡献就在这一层。
 
