@@ -59,10 +59,6 @@ mkdocs serve   # 本地预览 http://127.0.0.1:8000
 mkdocs gh-deploy --force   # 推到 gh-pages 分支
 ```
 
-## 寿命预期
-
-写完两年要是过时了，说明这个领域真的在动。预计有效期到 2028 年左右。
-
 ## License
 
 文字部分 CC BY-NC-SA 4.0，欢迎在署名 + 非商用 + 相同许可下转载和翻译。
