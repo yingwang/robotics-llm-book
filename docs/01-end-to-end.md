@@ -10,7 +10,15 @@
 
 代价是**中间表示是一个瓶颈**。grasp planner 拿到的只是 bounding box，看不见物体表面是软的还是硬的、把手是哪一边、有没有结冰、握太紧会不会捏变形。这些信息在感知阶段就被压成几个数字扔了，到了规划阶段已经追不回来。所以经典栈擅长抓刚体方块，不擅长抓毛巾、塑料袋、装着水的杯子。
 
----
+```mermaid
+flowchart LR
+  CAM[相机/LIDAR] --> P[感知层<br/>detection<br/>segmentation<br/>6-DoF pose]
+  P -->|bbox / pose| PL[规划层<br/>grasp planner<br/>motion planner]
+  PL -->|joint trajectory| C[控制层<br/>PD / impedance<br/>力控]
+  C --> M[电机]
+```
+
+
 
 LLM 那一套出来之后改变的不是某一层。改变的是**每一层的中间表示都可以由网络自己挑**。
 
@@ -61,6 +69,18 @@ VLA 那一层执行每一个子任务。每一段控制时长大概 30-90 秒，
 经典控制器那一层做两件事：**一是关节力矩限幅**，二是**阻抗控制下的接触安全**。你可以把这一层理解成"无论上面那两层怎么疯，这一层保证不会把人砸坏、把物体捏碎、把自己烧掉"。这件事 LLM 和 VLA 都做不了，因为它们的输出本身没有物理保证。
 
 这种三层结构在 2025 年的工业部署里几乎是默认选择。Figure 的 Helix 看起来是端到端，但仔细看 paper 也分成 system 1 和 system 2。1X 的 NEO 在家庭场景里跑的是高度分层的栈，VLA 只在某些子任务里用。Tesla 的 Optimus 走得更保守，到现在大段动作还是规划+控制，VLA 只用在抓取片段里。
+
+```mermaid
+flowchart TB
+  U[语言指令<br/>'把厨房收拾干净'] --> L[LLM planner<br/>拆子任务序列]
+  L -->|sub-task 1<br/>30-90s| V[VLA skill executor<br/>RT-2 / π0 / Helix]
+  L -->|sub-task 2| V
+  L -->|sub-task N| V
+  V -->|关节命令| S[安全层<br/>力矩限幅 / 阻抗 / e-stop]
+  S --> M[电机]
+  V -.->|失败信号 / 进度| L
+```
+
 
 ---
 

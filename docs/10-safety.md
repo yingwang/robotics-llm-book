@@ -22,6 +22,16 @@
 
 LLM 那一派过去四年在第三类上做了真东西。但**第一类和第二类几乎不沾**。把第三类的方法论照搬过来当具身安全的全部，是这一行最常见的概念错位之一。
 
+```mermaid
+flowchart TB
+  IN[人 / 环境 / 任务输入] --> BH[行为安全<br/>OOD detect / refusal<br/>prompt injection 防护<br/>RLHF / constitutional]
+  BH --> SW[软件安全<br/>runtime monitor<br/>CBF / shielding<br/>reachability]
+  SW --> HW[硬件安全<br/>torque limit / e-stop<br/>joint compliance<br/>ISO 10218 / 13482 / 15066]
+  HW --> M[电机 / 机械执行]
+  P[VLA / LLM planner 策略输出] --> SW
+  HW -.->|物理保证| GUARD((不可伤人<br/>不可砸物))
+```
+
 ---
 
 先说硬件安全这一层为什么不能省。

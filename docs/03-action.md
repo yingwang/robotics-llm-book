@@ -80,6 +80,15 @@ VLA 这条线 2022 到 2026 的家谱，按时间和分支排一下。
 
 **Diffusion Policy（Cheng Chi 等，Toyota Research，2023）**：严格说不算 VLA，没有 language。但它是动作输出层最重要的一支：用扩散模型生成 action chunk，**第一次让大家意识到动作分布是多模态的，回归到一个均值是错的**。这个 insight 后来被 π0 吸收成 flow matching 主干。
 
+```mermaid
+flowchart LR
+  RT1["2022 末<br/>RT-1<br/>Google<br/>130k 演示<br/>5Hz 离散 token"] --> RT2["2023 中<br/>RT-2<br/>PaLM-E 55B<br/>互联网常识迁移"]
+  RT2 --> OCT["2024 上<br/>Octo (Berkeley)<br/>OpenVLA 7B (Stanford)"]
+  OCT --> P0["2024 末<br/>π0 (PI)<br/>flow matching<br/>RDT-1B (清华)"]
+  P0 --> NEW["2025+<br/>π0-FAST (PI)<br/>GR00T N1 (NVIDIA)<br/>Helix (Figure)"]
+  DP["Diffusion Policy<br/>(Cheng Chi, TRI 2023)"] -.->|多模态动作分布| P0
+```
+
 ---
 
 为什么扩散和 flow matching 在动作上对，跟语言模型那条线分支了？
