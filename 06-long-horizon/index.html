@@ -1,0 +1,1327 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="2024-2026 这一波 LLM/VLM/VLA 进具身之后，工程师每天要做的判断">
+      
+      
+        <meta name="author" content="Ying Wang">
+      
+      
+        <link rel="canonical" href="https://yingwang.github.io/robotics-llm-book/06-long-horizon/">
+      
+      
+        <link rel="prev" href="../05-navigation/">
+      
+      
+        <link rel="next" href="../07-sim2real/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>第 6 章 长程任务 - 把语言模型装进机器人</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="把语言模型装进机器人" class="md-header__button md-logo" aria-label="把语言模型装进机器人" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            把语言模型装进机器人
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 6 章 长程任务
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="切到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="切到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yingwang/robotics-llm-book" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yingwang/robotics-llm-book
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="把语言模型装进机器人" class="md-nav__button md-logo" aria-label="把语言模型装进机器人" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    把语言模型装进机器人
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yingwang/robotics-llm-book" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    yingwang/robotics-llm-book
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    序言
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    序言
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-preface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    这本书的定位
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一部分 框架变了
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一部分 框架变了
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-end-to-end/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 章 端到端与分层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-perception/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 章 感知
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-action/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 章 动作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二部分 难题
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第二部分 难题
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 章 抓取
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 章 导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 章 长程任务
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 章 长程任务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        练习
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第三部分 工程
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第三部分 工程
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-sim2real/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 章 仿真到现实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 章 数据
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 章 评估
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-safety/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 章 安全
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第四部分 落地
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第四部分 落地
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 章 硬件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 章 部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-team-and-capital/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 章 团队与资本
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-five-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 14 章 五年后
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        练习
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="6">第 6 章 长程任务<a class="headerlink" href="#6" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>第 1 章立的那把判断尺，到这一章正式碰到它最难的一格：<strong>任务一旦超过两分钟，端到端就开始崩</strong>。崩的方式不是噪声，是结构。这一章解释那个结构，以及为什么再大的网络也不会把它"训没"。</p>
+</blockquote>
+<hr />
+<p>2025 年下半年我看过一段不到两分钟的内部 demo。一台双臂 VLA 机器人在做收拾餐桌：先把脏碗一个一个放进水池，然后回桌上擦水迹。前 60 秒非常漂亮，每个碗的位姿都对得上，水池里没有任何剐蹭。</p>
+<p>第 90 秒它做了一件让全屋人安静下来的事：<strong>把一个已经放进水池的碗又拿了回来</strong>，重新放到餐桌上，然后伸手去抓它，再放回水池。</p>
+<p>来回三趟。没有报错，没有犹豫，电机声音平稳，姿态优美。它认认真真地进入了一个死循环，直到旁边工程师把急停按下。</p>
+<p>事后回放数据，每一帧单看都"合理"。模型看到桌上有个碗，桌上有碗就该抓；抓起来旁边有水池，就该放进去；放进去之后再看一眼桌子，咦还有个碗（那是它自己刚拿回来的），那就再来一遍。<strong>任务级的状态在网络里不存在</strong>，每一步只是在做"现在这一帧最像演示数据里的哪一帧"的最近邻。前 60 秒像是因为前 60 秒的状态分布跟训练数据完全重合；第 90 秒分布开始飘，飘到一个训练集里没人收拾过的中间态，模型就退化成了一个对当前画面的反射。</p>
+<p>这是 2025 年所有人都在反复看的画面。看十次就能学到一件事：<strong>长程任务不是"训得不够长"。是没拆</strong>。</p>
+<hr />
+<p>VLA 在两分钟以上为什么必崩，可以拆成四个独立的原因。这四个不重叠，每一个都得单独解决。</p>
+<p>第一是<strong>训练数据的长度分布</strong>。teleop 收集的演示绝大多数在 10-60 秒之间。原因很物理：操作员注意力撑不住更长，标注成本随时长线性涨，剪辑长 demo 时人会下意识把停顿剪掉。整个数据集的中位数大概 25 秒。π0 在折衣服上能跑近 5 分钟已经是把训练 budget 全压在长 demo 上换来的，<strong>而且只在那一类任务上</strong>。让同一个模型去跑 5 分钟的厨房任务，立刻退化。</p>
+<p>第二是 <strong>context window</strong>。当前 VLA 的视觉 token 化效率很差，30Hz 的双目摄像头一秒钟可以吃掉两三千 token。即使是支持 1M context 的语言模型骨干，纯视觉跑 90 秒之后窗口就快满了，再之后只能丢早期帧。<strong>早期帧丢掉，机器人就忘了"这一步之前我已经把碗放进水池了"</strong>。这件事不是写一个长 context 模型就能解决的，是 token 经济学的问题。</p>
+<p>第三是<strong>累积误差</strong>。每一步动作都有几毫米的位置误差、几度的角度误差，单步看微不足道。但闭环里下一步是基于上一步的状态拍的，180 步之后误差能堆到桌面边缘外面去。经典控制器有 Kalman filter 在每一步把误差拉回来，端到端策略<strong>没有任何机制做这件事</strong>，因为它的状态估计是隐式的，藏在 transformer 的 hidden state 里，没有地方挂一个 correction step。</p>
+<p>第四是<strong>状态估计漂移</strong>，更准确说是<strong>任务进度漂移</strong>。机器人能估计自己手在哪儿（本体感觉很准），能估计桌上有什么物体（视觉够好），但<strong>它估计不出"这个任务我已经做到第几步"</strong>。这第四件事是这一章最关键的，下面会单独再讲。</p>
+<p>这四件事加起来就是死循环画面的全部解释。不是模型不聪明，是它在用一个为短时反射优化的架构去做一件需要任务级记忆的事。</p>
+<hr />
+<p>所以这一章要立第一条立场：<strong>长程任务 ≠ "训更长"。是"该分层"</strong>。</p>
+<p>这句话有人不爱听，特别是 2024-2025 那一波相信"scale is all you need"的人。立场要点名说清楚：scale 在两分钟以下买到了真东西，π0 折衣服、Helix 抓取片段、GR00T 的 manipulation skill，这些都是 scale 带来的。但<strong>长度这一维 scale 不进去</strong>，因为它需要的不是更多参数，是一个能把任务拆成若干个两分钟以下子段的外部结构。这件事网络自己生成不出来，因为生成它需要的不是 pattern matching，是 planning。</p>
+<p>planning 这件事 LLM 已经会了。让 VLA 也学一遍 planning 是把两个本来已经分得很好的能力强行混在一起。<strong>分层不是为了仿生大脑的 system 1 / system 2，是为了把两件不同的优化问题分开</strong>。</p>
+<hr />
+<p>LLM 当 planner 这条线的简史值得一段。</p>
+<p>最早是 SayCan（Ahn 等，Brian Ichter 和 Karol Hausman 在 Google Robotics，2022 年 4 月）。SayCan 的想法很朴素：让 LLM 列出可能的下一步动作，每一步用一个学到的 affordance 函数打分（"机器人在当前状态下做这件事能不能成"），用 say × can 的乘积选下一步。<strong>那时候 GPT-3 刚出</strong>，让一个语言模型去给机器人列动作，是当时的所有人都觉得"反正试试"的实验。它跑通了，证明 LLM 知道"想喝可乐先去拿可乐再带回来"，这件事在 2022 年是新的。</p>
+<p>紧接着是 Code as Policies（Liang 等，Google，2022 年 9 月）。这一篇换了思路：不让 LLM 直接选动作，让它<strong>生成一段调用 API 的 Python 代码</strong>。<code>grasp("red_block"); place("on_top_of", "blue_block")</code> 这种。代码这种结构天然就有 if-else、for 循环、变量绑定，比一个个 step token 表达力强得多。这条路后来变成主流。</p>
+<p>ProgPrompt（Singh 等，NVIDIA，2022 年）把这一思路用到家务任务，证明了 LLM 在结构化代码下能做相当复杂的厨房任务规划。Inner Monologue（Huang 等，Google，2022 年中）做了另一件事：让 LLM 在执行过程中<strong>听得到反馈</strong>，视觉模型说"我看到红色方块倒了"，LLM 要能根据这个调整后续步骤。这是第一次把 LLM 用成闭环的而不是开环的 planner。</p>
+<p>2023 年这条线分叉。VoxPoser（Wenlong Huang 在 Stanford，2023 年 7 月）走的是用 LLM 生成 3D value map，让一个轨迹优化器在这个 map 上跑出动作。这是个聪明的中间方案：LLM 不直接说动作，说"哪些区域吸引、哪些区域排斥"，把语义和几何拼到一起。ViLA（Hu 等，2023 年）和 Tidybot（Wu 等）继续推 LLM + scene graph 的路线。同年 Google 的 PaLM-E（Driess 等）走另一极端，把视觉直接拼进语言模型的 token 序列里，让 LLM 自己端到端做规划+执行。PaLM-E 在某种意义上是 RT-2 的前身。</p>
+<p>2024 年这一线开始进工业。每家具身公司私下都有某种形式的 LLM-as-planner，用法大同小异：把高层指令拆成 2-5 个子任务，每个子任务对应一个已知的 skill API，调下去执行，根据返回值决定下一步。这件事 2026 年初已经是默认选择，争议的不再是要不要做，是 <strong>skill API 到底长什么样</strong>。</p>
+<hr />
+<p>skill API 是这一层成败的全部。子任务接口划得好，整套系统稳；划得不好，LLM 在上面规划得再漂亮，下面的 VLA 也接不住。</p>
+<p>什么是坏的 skill？<strong><code>clean_kitchen()</code></strong>。这个粒度太大，下面没有任何 VLA 能稳定执行 5 分钟连续动作，于是这个 skill 名字其实只是把死循环延后到了下一层。</p>
+<p>什么是好的 skill？<strong><code>pick(object_id, grasp_pose=None)</code></strong>、<strong><code>place(target_pose, support_surface)</code></strong>、<strong><code>wipe(area_polygon, tool_id)</code></strong>、<strong><code>open_drawer(handle_pose)</code></strong>。注意几个特征。第一是参数化，能接 LLM 传下来的具体物体 ID 和位姿。第二是单步时长在 10-60 秒之间，正好是 VLA 在演示分布里能稳跑的窗口。第三是有明确的成功/失败返回，让上层 LLM 能据此重规划。第四是<strong>接口语义足够窄</strong>，窄到可以为它专门收一两千条 demo 训练一个小 policy。</p>
+<p>不好的 skill 的另一个失败模式是<strong>自然语言当 API</strong>。"Pick up the red bowl that's on the left side of the table" 这种。听起来很 LLM-friendly，但下面的 VLA 不一定理解"left side of the table"在当前坐标系里是哪边。<strong>LLM 是个无视觉的 planner，它写出来的指代要靠下面的 VLA 自己去消歧</strong>，消歧失败就是另一种死循环的来源。靠谱的做法是上面那一层先过一个 vision-language grounding 模块，把"红碗"变成 <code>object_id=37, bbox=[...]</code>，再传给 skill。多一层翻译，少一类 bug。</p>
+<p>至于 skill 该有多少个，2025 年的工业经验是<strong>一个家庭机器人 30-80 个 skill 够用</strong>，再多管理成本就压人。每一个 skill 单独 fine-tune、单独评估、单独 versioning。这件事跟 2010 年代的 motion primitive library 心智上接近，差别是每个 primitive 现在是个神经网络。</p>
+<hr />
+<p>把任务拆出来还不够，<strong>得能从失败里恢复</strong>。</p>
+<p>失败恢复这一类工作 2024-2025 集中爆发了一批。REFLECT（Liu 等，2023 年底）做的是让机器人在失败后用 LLM 自己分析失败原因，比如"我刚才没抓住，是因为我抓的位置太靠边"，再据此调整下一次尝试。AHA（Duan 等，2024 年）走类似路线但加上了视觉证据。RACER（Dai 等，2024 年）专门做长程任务的 recovery，把失败片段和恢复片段都收进训练集。Robotic Recovery 这一类工作（不同组在做）核心都是一件事：<strong>承认会失败，给系统一个失败之后干什么的协议</strong>。</p>
+<p>最值得拎出来的是 Yell At Your Robot（Shi 等，Lerrel Pinto 在 NYU，2024 年）。这一篇的设定很简单：机器人正在执行任务，人在旁边喊"不对，往左一点"，机器人立刻调整。意义不在喊话本身，在它<strong>承认了人和机器人在长程任务里需要一个低带宽的纠错通道</strong>。这件事在工业部署里其实早就在做（Figure、1X 都有遥操作员盯着实时纠偏），Yell At Your Robot 是把它学术化的第一步。</p>
+<p>把这几条放一起看，长程任务的 recovery 设计有三类。第一类是<strong>retry</strong>：失败之后重试一次，对抓滑这种偶发错误有用。第二类是<strong>replan</strong>：让 LLM 重新规划，对子任务执行不下去（比如门打不开）有用。第三类是<strong>ask</strong>：让人来帮忙，对前两类都解决不了的疑难有用。<strong>好的长程系统三类都有，分级处理，不指望任何一类能兜住所有情况</strong>。</p>
+<hr />
+<p>记忆是另一根硬骨头。</p>
+<p>LLM 那边的记忆结构现在大致分三层。短期是 transformer 的 context window，所有当前对话内容直接进去。中期是 agent scratchpad，把关键事实和中间结论结构化地写下来供下一步引用。长期是 RAG over experience，把过往会话存成 embedding 索引，需要时检索回来。这一套在 LLM 那边已经相对成熟。</p>
+<p>机器人记忆为什么比聊天 agent 难，三件事。</p>
+<p><strong>第一是带宽</strong>。聊天 agent 一秒钟新增几百 token，机器人一秒钟新增几千 token 的视觉、加上几百 token 的本体感觉、加上几十 Hz 的力觉。把这些全塞 context 跑两分钟就爆。所以机器人的中期记忆必须<strong>先压缩再写入</strong>，怎么压是个开放问题。</p>
+<p><strong>第二是连续性</strong>。聊天里两条消息之间的状态切换是离散的，机器人世界里碗落到水池的水溅出来这件事是连续的。压缩的时候保留多少帧、多少粒度的物理细节，没人知道答案。</p>
+<p><strong>第三是检索的信号</strong>。在文本 RAG 里，下一句问的关键词跟过去某段记忆的关键词重合度高，就 retrieve 那段。机器人在执行第 47 步时该 retrieve 训练集里的哪一段经验？基于物体？基于姿态？基于子任务名？目前没有一个 embedding 同时把这三件事编码得好。VLM 的 image embedding 太粗，CLIP 那一类对纹理敏感对几何不敏感，全是已知问题。</p>
+<p>2025 年实战里见到的折中方案：<strong>短期 = transformer context（30 秒内的视觉 + 动作）；中期 = LLM 维护的任务进度文本（"已完成步骤 1、2、3，当前步骤 4，下一步 5"）；长期 = 几乎不用</strong>。最后一项不是不重要，是检索没解决。所以现在的家用机器人在你家跑了三个月，并不会因此变得更懂你家。它每天醒来都是同一个模型权重。这件事是 2026-2028 这三年明显会有突破的方向之一。</p>
+<hr />
+<p>立场二，写在这一章中段最显眼的位置：<strong>state estimation 是这一波被遗忘的问题</strong>。</p>
+<p>机器人这门学科在 2010 年代有半本书都在讲 state estimation。SLAM 一整套（EKF-SLAM、graph SLAM、ORB-SLAM、LSD-SLAM、Cartographer）都在解一个很基本的问题：我自己现在在哪儿、姿态是什么。VIO 这一线把 IMU 加进来。这一切一直到 2020 年都是机器人栈的核心。</p>
+<p>VLA 出来之后这件事被悄悄绕过去了。"反正网络看着图像直接输出 action，它内部肯定隐式知道自己在哪。"这话部分对，对 60 秒以内的短任务确实够用。<strong>但长程任务里要估计的不只是位姿，是任务进度</strong>。</p>
+<p>任务进度这个量，传统机器人学没有正经研究过，因为传统机器人的任务都是手写的状态机，第几步执行到哪里是状态机自己的变量，不需要"估计"。VLA 时代任务变成了语言指令、变成了 LLM 生成的子任务序列，<strong>"我现在在第几步"突然变成一个需要从感知里反推的隐变量</strong>。</p>
+<p>反推它要的信号其实蛮多。视觉里有"这个碗已经在水池里了"，本体感觉里有"我刚才抓过一次东西然后放下了"，LLM 的 plan 里有"下一步该是擦桌子"。把这三类信号融合成一个对任务进度的估计，这件事本质就是一个 state estimator，只是状态空间从 SE(3) 换成了 plan tree 上的一个游标。</p>
+<p>2025 年开始有一两篇 paper 在做这个方向（"task progress estimation""subtask completion classifier"这一类标题），但还远没有成体系。我赌这一块在 2027 年之前会出来一个像 Kalman filter 之于位姿估计那样的标准方法，<strong>整个长程任务的稳定性会随之上一个台阶</strong>。在那之前，工程上的兜底做法是：<strong>让 LLM planner 在每一步执行后回看一眼，自己判断"刚才那一步成了吗"</strong>，本质上是把 state estimator 的工作 hack 给了 LLM。这个 hack 比想象中能用，但它要花掉一次 LLM 调用（几百毫秒、几分钱），所以高频任务里跑不动。</p>
+<hr />
+<p>到这里，"分层"这个词其实包含了两种心智上完全不同的东西，要分开讲。</p>
+<p>一种是 RT-H、RT-Trajectory（Belkhale 等，DeepMind，2024 年）这一线的<strong>动作 hierarchy</strong>。它的层级是在动作空间里的：上层输出一段轨迹或一段语言动作描述（"move arm forward, then down"），下层把这个翻译成关节角。整个系统还是端到端训出来的，分层是为了让网络内部更好优化、为了让数据更易标注、为了让中间表示更易于人工干预。<strong>它不解决长程任务</strong>，只让短程任务训得更稳、更可控。</p>
+<p>另一种是 SayCan、Code as Policies、本章一直在讲的这一线的<strong>语义 hierarchy</strong>。它的层级是在任务空间里的：上层是 LLM、是符号化的子任务、是带变量的 API 调用；下层才是 VLA 或经典控制器去执行每一段。这一类<strong>专门为长程任务设计</strong>，每一层之间的接口是离散的、可读的、可记 log 的。</p>
+<p>两种 hierarchy 解决的是不同的问题，公司和实验室经常混着说。要在简历里、在白板会议上、在 paper review 里听清楚对方说的是哪一种。<strong>RT-H 风格的动作分层不能替代 LLM planner 风格的任务分层，反过来也不行</strong>。一个长程家庭服务机器人这两层都需要。</p>
+<hr />
+<p>最后给一段实操，对应第 1 章那个工程信号：你已经收了一万条演示，VLA 还是过不了验收。</p>
+<p><strong>第一步，把这一万条 demo 按时长重新切</strong>。看分布，多半你会发现集中在 20-40 秒，少量长 demo 是把若干段拼出来的。把所有超过 90 秒的 demo 砍成 30-60 秒的小段，每段独立标一个子任务名（不需要严格，"pick","place","wipe","open" 这种粒度就行）。</p>
+<p><strong>第二步，画 plan</strong>。把你最终要做的那个长任务（比如"清理餐桌"）人工写成 LLM-friendly 的伪代码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>for dish in dishes_on_table:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  pick(dish.id)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  place(sink_pose, &quot;drop&quot;)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>for spot in wet_spots:
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  wipe(spot.area, towel.id)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>done()
+</code></pre></div>
+<p>这个写法暴露了你需要的 skill 集合：pick、place、wipe，加上 vision 模块给的 dishes_on_table、wet_spots 检测。<strong>这一步如果你写不顺，说明你对自己的任务还没拆够</strong>，回到 demo 数据里继续拆。</p>
+<p><strong>第三步，每个 skill 用对应那批数据 fine-tune 一个小 VLA</strong>。量级 2-3k 条 demo per skill，远比一万条直接训长任务有效。每个 skill 单独评估，能跑稳再拼。</p>
+<p><strong>第四步，把 LLM planner 接上</strong>。skill API 的 docstring 要写得 LLM 看得懂，每个 skill 返回 success/failure 信号。失败时 retry 一次，再失败 replan，再失败 ask。</p>
+<p><strong>第五步，加任务进度 tracker</strong>。最简单的版本就是每个 skill 调用前后让 LLM 看一眼当前画面回答"上一步成功了吗、下一步该做什么"。这个 hack 解决 80% 的死循环。</p>
+<p>这个流程下来，原来那个一万条 demo 训不动的长任务，通常一周到两周能跑稳。<strong>不是因为更多数据，是因为问题被拆对了</strong>。</p>
+<hr />
+<h2 id="_1">练习<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><strong>找一段你看过的最长的 VLA demo video</strong>（π0 折衣服、Helix 操作 demo、1X NEO 家庭片段都行），用秒表卡时间。从开始到第一个明显走样、卡住、或者动作变怪的时刻，多久？这个时间和章里说的"两分钟以上崩"对得上吗？</p>
+<p><strong>重读 SayCan 那篇 paper</strong>，但这次跳过 affordance 函数那一节，只看它给 LLM 用的 prompt 和 LLM 输出的子任务序列。把里面的子任务粒度拎出来，它们是 <code>pick(object)</code> 这种参数化形式，还是 "go to the kitchen" 这种自然语言？这个粒度选择带来的代价和好处分别是什么？</p>
+<p><strong>找一个你身边的人做一件 5 分钟以上的家务</strong>（叠衣服、煮一顿饭、整理书桌），录下来，回放时把它拆成离散子任务的列表。你拆出来多少个？子任务之间有没有顺序约束？有没有哪一段你拆不出来、只能用一个名字概括（比如"调味"）？这种拆不动的子段就是端到端 VLA 真正的用武之地。</p>
+<p><strong>给你正在做的任务写一份 skill API 文档</strong>，每个 skill 一段 docstring，参数和返回值标清楚。写完之后让 Claude 或 GPT 去读这份文档，让它生成完成你那个长任务的伪代码。它写出来的代码能跑吗？如果不能，缺哪个 skill、哪个参数没暴露好？这个练习能在两小时内告诉你你的接口有没有划对。</p>
+<p>下一章：<a href="../07-sim2real/">第 7 章 仿真到现实</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/yingwang" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.tracking", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
