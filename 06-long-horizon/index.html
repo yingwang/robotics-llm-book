@@ -1192,6 +1192,18 @@
 <p>ProgPrompt（Singh 等，NVIDIA，2022 年）把这一思路用到家务任务，证明了 LLM 在结构化代码下能做相当复杂的厨房任务规划。Inner Monologue（Huang 等，Google，2022 年中）做了另一件事：让 LLM 在执行过程中<strong>听得到反馈</strong>，视觉模型说"我看到红色方块倒了"，LLM 要能根据这个调整后续步骤。这是第一次把 LLM 用成闭环的而不是开环的 planner。</p>
 <p>2023 年这条线分叉。VoxPoser（Wenlong Huang 在 Stanford，2023 年 7 月）走的是用 LLM 生成 3D value map，让一个轨迹优化器在这个 map 上跑出动作。这是个聪明的中间方案：LLM 不直接说动作，说"哪些区域吸引、哪些区域排斥"，把语义和几何拼到一起。ViLA（Hu 等，2023 年）和 Tidybot（Wu 等）继续推 LLM + scene graph 的路线。同年 Google 的 PaLM-E（Driess 等）走另一极端，把视觉直接拼进语言模型的 token 序列里，让 LLM 自己端到端做规划+执行。PaLM-E 在某种意义上是 RT-2 的前身。</p>
 <p>2024 年这一线开始进工业。每家具身公司私下都有某种形式的 LLM-as-planner，用法大同小异：把高层指令拆成 2-5 个子任务，每个子任务对应一个已知的 skill API，调下去执行，根据返回值决定下一步。这件事 2026 年初已经是默认选择，争议的不再是要不要做，是 <strong>skill API 到底长什么样</strong>。</p>
+<pre class="mermaid"><code>flowchart TB
+  T[任务: 收拾厨房] --&gt; L[LLM planner]
+  L --&gt;|pick(red_bowl)| S1[VLA skill 1&lt;br/&gt;30-90s]
+  L --&gt;|place(sink)| S2[VLA skill 2&lt;br/&gt;30-90s]
+  L --&gt;|wipe(table)| S3[VLA skill 3&lt;br/&gt;30-90s]
+  S1 --&gt; SF[安全层&lt;br/&gt;力矩限幅 / e-stop]
+  S2 --&gt; SF
+  S3 --&gt; SF
+  SF --&gt; M[电机]
+  S1 -.-&gt;|success / fail / stuck| L
+  S2 -.-&gt;|success / fail / stuck| L
+  S3 -.-&gt;|success / fail / stuck| L</code></pre>
 <hr />
 <p>skill API 是这一层成败的全部。子任务接口划得好，整套系统稳；划得不好，LLM 在上面规划得再漂亮，下面的 VLA 也接不住。</p>
 <p>什么是坏的 skill？<strong><code>clean_kitchen()</code></strong>。这个粒度太大，下面没有任何 VLA 能稳定执行 5 分钟连续动作，于是这个 skill 名字其实只是把死循环延后到了下一层。</p>

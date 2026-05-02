@@ -1377,6 +1377,11 @@
 <hr />
 <h2 id="lab-pilot-paid-customer">lab 到 pilot 到 paid customer 是三段不同的路<a class="headerlink" href="#lab-pilot-paid-customer" title="Permanent link">&para;</a></h2>
 <p>很多创始人的脑子里这是一条线性曲线：lab 数据多了 → pilot 部一点 → 客户付钱。错的。这是三段斜率完全不同的曲线。</p>
+<pre class="mermaid"><code>flowchart LR
+  L["Lab&lt;br/&gt;0% → 90%&lt;br/&gt;3-12 个月&lt;br/&gt;斜率最陡"] --&gt;|进客户场地| P["Pilot&lt;br/&gt;90% → 95%&lt;br/&gt;6-12 个月/家&lt;br/&gt;斜率突然变平"]
+  P --&gt;|签合同收钱| C["Paid customer&lt;br/&gt;95% → 99%+&lt;br/&gt;1-3 年&lt;br/&gt;追低方差和 SLA"]
+  C --&gt; S[规模化]
+  P -.-&gt;|烧完没爬上来| DEAD((大多数公司&lt;br/&gt;死在这一步))</code></pre>
 <p><strong>lab 阶段</strong>斜率最陡。从零到 90% 的 task success，端到端 + teleop 数据 + sim 兜底，一年内做到不算稀奇。2024 年这一年 OpenVLA、π0、GR00T 把这一段的门槛打到了某些任务三个月一个 milestone。</p>
 <p><strong>pilot 阶段</strong>斜率突然变平。从 90% 到 95% 在 lab 之外要花 6-12 个月。原因是每进一个新场地，前两周都在补这个场地特有的分布。Agility 的 Digit 在 GXO 仓库（2024 年初开始正式商用 RaaS 部署）跑到第三个客户场地的时候，他们公开过一个数字：每个新场地的前 200 小时是 deploy team 现场坐着调，第二个 200 小时变成远程协助为主，800 小时之后才接近 lab 数字。</p>
 <p><strong>paid customer 阶段</strong>斜率第三次变。客户付钱之后你要的不是更高的 success rate，是更低的方差和更可预测的 SLA。一个每天能干 95% 但偶尔会漏 1% 把碗摔了的机器人，比一个每天稳定 88% 从不出意外的机器人难卖。<strong>客户买的是确定性，不是均值</strong>。这件事 Locus Robotics 在他们的 RaaS 合同里明白得很早，他们卖给 DHL 这种客户的 SLA 是按"每小时拣货数下限"写的，不是按平均拣货数。</p>

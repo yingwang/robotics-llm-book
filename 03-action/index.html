@@ -1207,6 +1207,12 @@
 <p><strong>GR00T N1（NVIDIA，2025 年）</strong>：humanoid 通用基础模型路线。野心是"任何人形机器人下载就能跑的预训练权重"。系统设计上明显是 system 1 + system 2 双层。</p>
 <p><strong>Helix（Figure，2024-2025）</strong>：宣称"第一个能给 humanoid 上半身做端到端控制的 VLA"。paper 写得偏宣传，但里面 system 1 / system 2 的拆分其实暴露了它不是纯端到端。</p>
 <p><strong>Diffusion Policy（Cheng Chi 等，Toyota Research，2023）</strong>：严格说不算 VLA，没有 language。但它是动作输出层最重要的一支：用扩散模型生成 action chunk，<strong>第一次让大家意识到动作分布是多模态的，回归到一个均值是错的</strong>。这个 insight 后来被 π0 吸收成 flow matching 主干。</p>
+<pre class="mermaid"><code>flowchart LR
+  RT1["2022 末&lt;br/&gt;RT-1&lt;br/&gt;Google&lt;br/&gt;130k 演示&lt;br/&gt;5Hz 离散 token"] --&gt; RT2["2023 中&lt;br/&gt;RT-2&lt;br/&gt;PaLM-E 55B&lt;br/&gt;互联网常识迁移"]
+  RT2 --&gt; OCT["2024 上&lt;br/&gt;Octo (Berkeley)&lt;br/&gt;OpenVLA 7B (Stanford)"]
+  OCT --&gt; P0["2024 末&lt;br/&gt;π0 (PI)&lt;br/&gt;flow matching&lt;br/&gt;RDT-1B (清华)"]
+  P0 --&gt; NEW["2025+&lt;br/&gt;π0-FAST (PI)&lt;br/&gt;GR00T N1 (NVIDIA)&lt;br/&gt;Helix (Figure)"]
+  DP["Diffusion Policy&lt;br/&gt;(Cheng Chi, TRI 2023)"] -.-&gt;|多模态动作分布| P0</code></pre>
 <hr />
 <p>为什么扩散和 flow matching 在动作上对，跟语言模型那条线分支了？</p>
 <p>语言模型用 cross-entropy loss 回归下一个 token，本质是在离散分布上做 MLE。这套在语言上对，因为语言 token 之间确实是离散的、词表是有限的。</p>

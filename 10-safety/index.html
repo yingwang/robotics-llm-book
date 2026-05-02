@@ -1178,6 +1178,13 @@
 <p><strong>软件安全</strong>。给定一个会出错的策略（不管是经典控制器还是 VLA），如何在运行时把它的输出框在一个不会出物理灾难的集合里。这一层的语言是 runtime monitor、reachability analysis、Hamilton-Jacobi safe set、control barrier function (CBF)、shielding。代表人物是 UC Berkeley 的 Claire Tomlin（HJ reachability 这一派的奠基者）、Caltech 的 Aaron Ames（CBF 这一派）、Berkeley 的 Anca Dragan（learned policy + safety filter 这一派）、CMU 的 Changliu Liu（safe set 在协作场景的工程化）。这一层的核心思路是<strong>把"安全"形式化成一个集合，无论上面的策略输出什么动作，先投影到这个集合里再执行</strong>。</p>
 <p><strong>行为安全</strong>（也就是 alignment 那一派说的那个意思）。给定一个能力很强的策略，怎么让它在意图层面不去做"明明可以做但社会不希望它做"的事。让聊天机器人不写炸弹配方、不冒充医生开处方、不教唆自杀。这一层的工具是 RLHF、constitutional AI、refusal training、red teaming、jailbreak defense。Anthropic 这家公司最大的工程贡献就在这一层。</p>
 <p>LLM 那一派过去四年在第三类上做了真东西。但<strong>第一类和第二类几乎不沾</strong>。把第三类的方法论照搬过来当具身安全的全部，是这一行最常见的概念错位之一。</p>
+<pre class="mermaid"><code>flowchart TB
+  IN[人 / 环境 / 任务输入] --&gt; BH[行为安全&lt;br/&gt;OOD detect / refusal&lt;br/&gt;prompt injection 防护&lt;br/&gt;RLHF / constitutional]
+  BH --&gt; SW[软件安全&lt;br/&gt;runtime monitor&lt;br/&gt;CBF / shielding&lt;br/&gt;reachability]
+  SW --&gt; HW[硬件安全&lt;br/&gt;torque limit / e-stop&lt;br/&gt;joint compliance&lt;br/&gt;ISO 10218 / 13482 / 15066]
+  HW --&gt; M[电机 / 机械执行]
+  P[VLA / LLM planner 策略输出] --&gt; SW
+  HW -.-&gt;|物理保证| GUARD((不可伤人&lt;br/&gt;不可砸物))</code></pre>
 <hr />
 <p>先说硬件安全这一层为什么不能省。</p>
 <p>一台机器人能不能伤人，<strong>第一决定因素不是控制策略，是它的最大输出力</strong>。一台 5 公斤的轻型协作臂，哪怕策略疯掉满频率乱抖，撞到人最多疼一下。一台 60 公斤的人形，哪怕策略写得很温柔，关节如果不做 compliance 设计，一次惯性失稳就能把站在旁边的小孩撞倒。</p>
