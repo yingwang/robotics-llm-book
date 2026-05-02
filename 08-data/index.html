@@ -1329,7 +1329,7 @@
 <p>这是 teleop 数据的第一个真相：<strong>它不是物理世界的客观采样，是一群特定的人在特定一段时间里、用一个特定的接口操作出来的轨迹</strong>。VLA 学不到"怎么做这个任务"，VLA 学到的是"那群人是怎么做这个任务的"。</p>
 <hr />
 <p>先把数据来源摊开。这两年具身能用的数据来源大致五类：</p>
-<p><strong>Teleop</strong>。人戴 VR 或者用 leader-follower 装置远程操作机器人，记录每一步的动作和图像。优点是动作标签干净、跟硬件完全对齐、能拿到接触时刻的精确扭矩。缺点是慢、贵、有人的偏见，而且<strong>演示者本人也不会做的任务，teleop 给不出来</strong>。</p>
+<p><strong>Teleop</strong>（teleoperation，遥操作：人远程实时驱动机器人）。人戴 VR 或者用 leader-follower 装置（一只小臂当摇杆，操作员手握它，远端的真臂跟随）远程操作机器人，记录每一步的动作和图像。优点是动作标签干净、跟硬件完全对齐、能拿到接触时刻的精确扭矩。缺点是慢、贵、有人的偏见，而且<strong>演示者本人也不会做的任务，teleop 给不出来</strong>。</p>
 <p><strong>Play 数据</strong>。Lerrel Pinto 那一派推得最凶。机器人或者人在环境里没有明确目标地玩，记录所有交互。便宜得多，但标签弱，得靠后期 hindsight relabeling 把它转成可训练的形式。</p>
 <p><strong>视频示范</strong>。第一人称视角的人手操作视频，没有动作标签但有清晰的视觉轨迹。UMI 那一类手持夹爪是这一路的工程化版本。</p>
 <p><strong>Internet 视频</strong>。YouTube、TikTok、Ego4D。海量但视角混乱、没动作标签、人手和机器人手 morphology 不一样。</p>
@@ -1356,7 +1356,7 @@
 <p>直觉上很美：在 ALOHA 上收的数据应该能帮我训 Franka、训 UR5、训 Kinova。<strong>实际上还没有任何 paper 给出过让人放心的证据</strong>。</p>
 <p>Octo（Berkeley 2024）和 CrossFormer（Berkeley 2024）是两个最严肃的尝试。两者都用 transformer 把不同机器人的 observation 和 action 编码到一个共享 token 空间，再用一个 universal head 出动作。Octo 在 9 种 embodiment 上做了联合训练，CrossFormer 进一步把单臂、双臂、轮式、四足都塞进一个网络。</p>
 <p>实证结果是这样：<strong>联合训练能略微提升每个 embodiment 自己的 in-distribution 表现，但 transfer 到一个完全没见过的 embodiment 上几乎不工作</strong>。换句话说，混着训不会让模型变笨，但也没有出现"某种通用具身先验"这种神话级的效果。</p>
-<p>这件事的根本困难是动作空间的物理意义不同。一个 7-DoF 机械臂的 joint 6 旋转 0.1 rad 跟另一个 7-DoF 机械臂的 joint 6 旋转 0.1 rad 在世界坐标系里走出来的 end-effector 轨迹完全不一样。<strong>网络要学到这个映射，需要的就是更多每种 embodiment 的演示数据</strong>，绕不过去。</p>
+<p>这件事的根本困难是动作空间的物理意义不同。一个 7-DoF 机械臂的 joint 6 旋转 0.1 rad（弧度，约 5.7 度）跟另一个 7-DoF 机械臂的 joint 6 旋转 0.1 rad 在世界坐标系里走出来的 end-effector（机械臂最末端工具的位姿）轨迹完全不一样。<strong>网络要学到这个映射，需要的就是更多每种 embodiment（具身形态：哪种机械臂、几个关节、装在轮式还是双足）的演示数据</strong>，绕不过去。</p>
 <p>所以 2026 年的工业现实是：<strong>没人真信 cross-embodiment 能省数据</strong>，每家做产品的公司还是在自己的硬件上从头收。混合训练当 pretrain，自己硬件上 fine-tune，是相对靠谱的折中。Octo 和 CrossFormer 这一线的真正贡献是给了一个<strong>可以共用的 visual backbone</strong>，而不是给了"通用 action head"这种神话。把它们当 ResNet 用，别当 GPT 用。</p>
 <p>学术界还有一类乐观说法：等动作空间统一到末端 SE(3) pose 而不是 joint，cross-embodiment 就解决了。这个说法忽略了一件事：末端 pose 同样的轨迹，不同机器人的可达性、关节奇异性、惯量分布都不一样，控制层会做出完全不同的事。<strong>动作空间的 mismatch 是表面问题，背后是机器人物理的不一致</strong>，这件事不会被某种 representation trick 解掉。</p>
 <hr />

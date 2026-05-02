@@ -1356,7 +1356,7 @@
 <p>那真实评估呢？真实评估的代价是这样的。</p>
 <p>一次 trial 在真机上的 wall-clock 大概 30 秒到 2 分钟。每次 trial 之间要 reset 环境（把物体放回初始位置、把机器人归位、检查传感器没漂），reset 时间 30 秒到 3 分钟。算上偶尔的硬件故障、需要充电、人在场观察的时间，一个全职评估工程师<strong>一天能跑 100 次到 200 次 trial</strong>。</p>
 <p>跑 100 次给你的是什么？给你一个二项分布的样本，0/1 成功率乘以 100 次试验。如果观察到的成功率是 70/100=70%，95% 置信区间（Wilson interval）大概是 [60%, 78%]。<strong>18 个百分点宽</strong>。</p>
-<p>跑 10 次给你的是什么？给你一个几乎没有信息量的数字。如果观察到 7/10=70%，95% Wilson 区间是 [40%, 90%]。<strong>50 个百分点宽</strong>。在这个区间宽度下，70% 和 50% 在统计上分不开，70% 和 85% 在统计上也分不开。你 paper 写"我们的方法 70% 比 baseline 60% 好"，如果两边都只跑了 10 次，<strong>这两个数字在 95% 信度上完全可能反过来</strong>。</p>
+<p>跑 10 次给你的是什么？给你一个几乎没有信息量的数字。如果观察到 7/10=70%，95% Wilson 区间（Wilson confidence interval：用二项分布算成功率的可信范围，比 normal approximation 在小样本下准）是 [40%, 90%]。<strong>50 个百分点宽</strong>。在这个区间宽度下，70% 和 50% 在统计上分不开，70% 和 85% 在统计上也分不开。你 paper 写"我们的方法 70% 比 baseline 60% 好"，如果两边都只跑了 10 次，<strong>这两个数字在 95% 信度上完全可能反过来</strong>。</p>
 <p>为什么大多数 paper 还是跑 10-50 次？三个原因。<strong>第一个是钱</strong>。一台真机一天的人力 + 折旧 + 场地大概 1500-3000 美元。100 次 trial 一天跑得完，但要跨 5-10 个任务、3-5 个 baseline、再加上不同 perturbation，总试验次数动辄上万次，成本立刻是六位数。<strong>第二个是惯性</strong>。学术圈的 reviewer 对 10-30 次 trial 习以为常，作者按惯例就这样写，没人因为 trial 数太少被拒稿。<strong>第三个是政治</strong>。如果你跑了 200 次发现你的方法只比 baseline 好 5 个点，区间还重叠，paper 就不能写"significant improvement"，你的 advisor 会让你想办法。最简单的"想办法"就是把试验次数减到区间能凑出 non-overlap 为止。这件事在工程界叫 p-hacking 的孪生兄弟 n-hacking。</p>
 <p>到 2026 年这件事正在被慢慢掀开。CoRL 2025 有一篇 best paper finalist 专门讨论 robotics evaluation 的统计，结论非常硬：<strong>当前 top venue 上 80% 以上的论文，如果按正常的统计标准重审，它们的"superior performance" claim 站不住</strong>。这篇 paper 的标题没有点名，但 community 里大家都知道点的是谁。</p>
 <hr />
@@ -1382,8 +1382,8 @@
 <p>很多团队在评估里跳过这一步，理由是"标记 failure mode 太花时间"。100 次 trial 标 failure 大概 2-3 小时。<strong>它救你下一个月的研发方向，不标的代价比标的代价大得多</strong>。</p>
 <hr />
 <p>工业评估有一套自己的指标体系，跟学术 benchmark 不完全对得上。值得列一下，因为如果你的下一站是工业部署，这套指标才是你交付的真东西。</p>
-<p><strong>MTBF (Mean Time Between Failures)</strong>。机器人从启动到下一次需要人介入的平均时间。家用机器人的目标 MTBF 在 2026 年大概是 2-4 小时，工业拣选机器人是 8-24 小时。这个数字跟学术成功率不能直接换算，因为学术成功率算的是单 task，MTBF 算的是连续多 task 直到崩为止。</p>
-<p><strong>Intervention Rate</strong>。每小时人需要干预多少次。1X 在博客里给过他们家用 NEO 的数字，2025 年中是 4-6 次/小时。这是实际部署的硬指标，比成功率诚实，因为它包含了所有"机器人卡住、人来救一下"的情况，而单 task 评估往往忽略这种。</p>
+<p><strong>MTBF (Mean Time Between Failures，平均无故障时间)</strong>。机器人从启动到下一次需要人介入的平均时间。家用机器人的目标 MTBF 在 2026 年大概是 2-4 小时，工业拣选机器人是 8-24 小时。这个数字跟学术成功率不能直接换算，因为学术成功率算的是单 task，MTBF 算的是连续多 task 直到崩为止。</p>
+<p><strong>Intervention Rate</strong>（介入率：每小时操作员要远程接管或现场干预多少次）。每小时人需要干预多少次。1X 在博客里给过他们家用 NEO 的数字，2025 年中是 4-6 次/小时。这是实际部署的硬指标，比成功率诚实，因为它包含了所有"机器人卡住、人来救一下"的情况，而单 task 评估往往忽略这种。</p>
 <p><strong>Success Rate per Task</strong>。这个跟学术界看上去一样，但工业界报告的时候通常带 N 和置信区间，因为下游的 SLA 合同要靠它。</p>
 <p><strong>MTBF + Intervention Rate + per-task SR</strong> 这三件套，比任何 benchmark 都更接近"这台机器人能不能交付"的真问题。<strong>学术 paper 几乎从不报前两个</strong>，这是 academia-industry gap 的最具体表现之一。</p>
 <hr />

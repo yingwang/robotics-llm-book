@@ -1337,9 +1337,9 @@
 <p>经典感知栈处理的核心问题是这样几个：</p>
 <p><strong>Detection</strong>：图像里有什么、在哪。从 R-CNN 系列（Girshick 2014）到 Faster R-CNN（Ren 等，2015）到 YOLO 系列（Redmon 起头，到 v8、v9、v10 已经是各家在做）到 DETR（Carion 等，Facebook，2020）。这一线的输出是一堆带类别标签的 bounding box，类别是训练时固定下来的几十到上千个。</p>
 <p><strong>Segmentation</strong>：每个像素属于哪一个物体。Mask R-CNN（He 等，2017）是分水岭，之前是 FCN、U-Net 那一套。语义分割和实例分割是两条线，工业上常需要的是后者。</p>
-<p><strong>Depth estimation</strong>：每个像素离相机多远。要么靠双目（OAK-D、ZED、RealSense D435 这些设备直接给），要么靠 LiDAR（Velodyne、Hesai、Livox），要么靠单目深度网络（这一线 2024 之前一直不稳）。在桌面机械臂场景，最常见的是 RealSense D435 或 D455，给到 30Hz 的稠密深度图，但近距离 15cm 以下不可信。</p>
-<p><strong>Pose estimation</strong>：对一个已知物体，估它的 6-DoF 位姿（x、y、z、roll、pitch、yaw）。这件事在抓取里是核心。经典做法是 PoseCNN（Xiang 等，2018）、DenseFusion（Wang 等，2019），后来 FoundationPose（NVIDIA，2024）做到了对未见物体的零样本 pose estimation，是这一线少数被 LLM 浪潮推着前进的工作。</p>
-<p><strong>SLAM 前端</strong>：相机自己在世界里的位姿。ORB-SLAM3（Campos 等，2021）、VINS-Fusion（HKUST，2018）、Kimera（MIT，2020）这一线在视觉惯性里跑了很久。室外大场景这两年被 Gaussian Splatting 类的 dense reconstruction 推了一把，但 SLAM 前端的位姿估计本身还是 feature-based 的天下。</p>
+<p><strong>Depth estimation</strong>：每个像素离相机多远。要么靠双目（OAK-D、ZED、RealSense D435 这些设备直接给，两只眼三角测量出深度），要么靠 LiDAR（Velodyne、Hesai、Livox 这些激光雷达品牌），要么靠单目深度网络（这一线 2024 之前一直不稳）。在桌面机械臂场景，最常见的是 RealSense D435 或 D455，给到 30Hz 的稠密深度图，但近距离 15cm 以下不可信。</p>
+<p><strong>Pose estimation</strong>：对一个已知物体，估它的 6-DoF 位姿（x、y、z 平移加 roll、pitch、yaw 旋转，共六个数）。这件事在抓取里是核心。经典做法是 PoseCNN（Xiang 等，2018）、DenseFusion（Wang 等，2019），后来 FoundationPose（NVIDIA，2024）做到了对未见物体的零样本 pose estimation，是这一线少数被 LLM 浪潮推着前进的工作。</p>
+<p><strong>SLAM 前端</strong>（边走边定位的几何骨架）：相机自己在世界里的位姿。ORB-SLAM3（Campos 等，2021）、VINS-Fusion（HKUST，2018，视觉惯性紧耦合）、Kimera（MIT，2020）这一线在视觉惯性里跑了很久。室外大场景这两年被 Gaussian Splatting 类的 dense reconstruction 推了一把，但 SLAM 前端的位姿估计本身还是 feature-based 的天下。</p>
 <p>这套栈每一块都成熟、都有 benchmark、都能写 unit test。它不够的地方第 1 章已经讲过：<strong>中间表示是固定类别的 bounding box 和深度图，没有语义弹性</strong>。你训了一个能识别 80 个 COCO 类的 detector，部署到家庭场景里看到一个"小米电饭煲"，它要么把它叫成 "microwave"，要么干脆给个低置信度的 "appliance"，反正不会告诉你这玩意是煮饭的。这是经典感知栈的硬限制，不是工程问题，是设定问题。</p>
 <hr />
 <p>2024 这一波带进来的几样东西，按顺序点一下，每一样都讲它<strong>真的解决了什么、真的没解决什么</strong>。</p>
