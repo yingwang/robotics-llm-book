@@ -33,6 +33,12 @@
 
 序：[这本书的定位](docs/00-preface.md)
 
+**前置篇 · 机器人入门**（懂 ML 不懂机器人先读这个，可跳过）
+
+- [P1 形态与运动学](docs/p1-shape-and-kinematics.md)
+- [P2 感知与定位](docs/p2-perception-and-localization.md)
+- [P3 控制与抓取](docs/p3-control-and-grasp.md)
+
 **第一部分 框架变了**
 1. [端到端与分层](docs/01-end-to-end.md)
 2. [感知](docs/02-perception.md)

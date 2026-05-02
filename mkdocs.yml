@@ -38,6 +38,10 @@ nav:
   - 首页: index.md
   - 序言:
     - 这本书的定位: 00-preface.md
+  - 前置篇 机器人入门（懂 ML 不懂机器人就先读这个，可跳过）:
+    - 前置 1 形态与运动学: p1-shape-and-kinematics.md
+    - 前置 2 感知与定位: p2-perception-and-localization.md
+    - 前置 3 控制与抓取: p3-control-and-grasp.md
   - 第一部分 框架变了:
     - 第 1 章 端到端与分层: 01-end-to-end.md
     - 第 2 章 感知: 02-perception.md
