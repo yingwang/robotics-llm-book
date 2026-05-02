@@ -1,0 +1,85 @@
+site_name: 把语言模型装进机器人
+site_description: 2024-2026 这一波 LLM/VLM/VLA 进具身之后，工程师每天要做的判断
+site_author: Ying Wang
+site_url: https://yingwang.github.io/robotics-llm-book/
+repo_url: https://github.com/yingwang/robotics-llm-book
+repo_name: yingwang/robotics-llm-book
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: 切到夜间模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: 切到日间模式
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - 首页: index.md
+  - 序言:
+    - 这本书的定位: 00-preface.md
+  - 第一部分 框架变了:
+    - 第 1 章 端到端与分层: 01-end-to-end.md
+    - 第 2 章 感知: 02-perception.md
+    - 第 3 章 动作: 03-action.md
+  - 第二部分 难题:
+    - 第 4 章 抓取: 04-manipulation.md
+    - 第 5 章 导航: 05-navigation.md
+    - 第 6 章 长程任务: 06-long-horizon.md
+  - 第三部分 工程:
+    - 第 7 章 仿真到现实: 07-sim2real.md
+    - 第 8 章 数据: 08-data.md
+    - 第 9 章 评估: 09-evaluation.md
+    - 第 10 章 安全: 10-safety.md
+  - 第四部分 落地:
+    - 第 11 章 硬件: 11-hardware.md
+    - 第 12 章 部署: 12-deployment.md
+    - 第 13 章 团队与资本: 13-team-and-capital.md
+    - 第 14 章 五年后: 14-five-years.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yingwang
