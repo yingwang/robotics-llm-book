@@ -18,13 +18,15 @@
 
 ---
 
-这本书写给一种人：**ML 那边的事你大概懂，机器人这边的事单看也懂，但你卡在两者拼起来的判断上**。
+这本书写给三种人。
 
-你能讲清楚 transformer 的 KV cache，能在白板上画 attention pattern，能在 H100 上跑 70B 模型推理。同时你也大概知道 PD 控制、ROS 话题、URDF 是什么。但当你的老板把一台 ALOHA 推到你面前说"三个月做个 demo 出来"，你不知道第一步是搜集 teleop 数据，还是先把 LLM 拿来当 high-level planner，还是直接去 fine-tune OpenVLA。
+第一种：**ML 那边的事你大概懂，机器人这边的事单看也懂，但你卡在两者拼起来的判断上**。你能讲清楚 transformer 的 KV cache，能在白板上画 attention pattern，能在 H100 上跑 70B 模型推理。同时你也大概知道 PD 控制、ROS 话题、URDF 是什么。但当你的老板把一台 ALOHA 推到你面前说"三个月做个 demo 出来"，你不知道第一步是搜集 teleop 数据，还是先把 LLM 拿来当 high-level planner，还是直接去 fine-tune OpenVLA。
 
-或者你站在另一边。你做了五年传统机器人，写过 MoveIt 的 motion planner、调过 Kalman filter、在工厂部署过 ABB 机械臂。然后 2024 年公司转型说我们要做具身大模型，给你两个 RTX 4090 和一篇 RT-2。你看完那篇 paper 知道它说什么，但不知道下一步该用 LeRobot 还是自己写训练循环，不知道 teleop 多少条数据够用，不知道 sim2real gap 这两年到底缩了没缩。
+第二种：**你做了五年传统机器人**，写过 MoveIt 的 motion planner、调过 Kalman filter、在工厂部署过 ABB 机械臂。然后 2024 年公司转型说我们要做具身大模型，给你两个 RTX 4090 和一篇 RT-2。你看完那篇 paper 知道它说什么，但不知道下一步该用 LeRobot 还是自己写训练循环，不知道 teleop 多少条数据够用，不知道 sim2real gap 这两年到底缩了没缩。
 
-这本书的目标是把这两边卡住的判断说清楚。它不是 PyTorch 教程。不是 ROS2 文档。不是 sim 平台对比评测。它是关于**在 2026 年这个具体节点上，做一台用 LLM 当大脑的机器人，每天要做的几十个 yes/no 判断**。
+第三种：**你懂点 ML，机器人完全是新领域**。Twitter 上每周一波具身公司估值新闻，看 1X NEO 那段倒水视频看得激动，但不知道里面哪些是真本事、哪些是 cherry-pick；想看懂这些公司到底在赌什么、哪几家活得过 2028 年、未来五年值不值得跳进去。书里出现 SLAM、impedance control、6-DoF pose 这些词的时候你不一定都认识，但每一段都尽量把判断的形状说清楚，遇到生词跳过去也能跟上整章的论点。**配合 LLM 边读边问，比从头啃 Tedrake 入门快**。
+
+这本书的目标是把这三边卡住的判断说清楚。它不是 PyTorch 教程。不是 ROS2 文档。不是 sim 平台对比评测。它是关于**在 2026 年这个具体节点上，做一台或评估一台用 LLM 当大脑的机器人，每天要做的几十个 yes/no 判断**。
 
 ---
 
