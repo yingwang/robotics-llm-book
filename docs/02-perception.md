@@ -31,11 +31,11 @@ flowchart LR
 
 **Segmentation**：每个像素属于哪一个物体。Mask R-CNN（He 等，2017）是分水岭，之前是 FCN、U-Net 那一套。语义分割和实例分割是两条线，工业上常需要的是后者。
 
-**Depth estimation**：每个像素离相机多远。要么靠双目（OAK-D、ZED、RealSense D435 这些设备直接给），要么靠 LiDAR（Velodyne、Hesai、Livox），要么靠单目深度网络（这一线 2024 之前一直不稳）。在桌面机械臂场景，最常见的是 RealSense D435 或 D455，给到 30Hz 的稠密深度图，但近距离 15cm 以下不可信。
+**Depth estimation**：每个像素离相机多远。要么靠双目（OAK-D、ZED、RealSense D435 这些设备直接给，两只眼三角测量出深度），要么靠 LiDAR（Velodyne、Hesai、Livox 这些激光雷达品牌），要么靠单目深度网络（这一线 2024 之前一直不稳）。在桌面机械臂场景，最常见的是 RealSense D435 或 D455，给到 30Hz 的稠密深度图，但近距离 15cm 以下不可信。
 
-**Pose estimation**：对一个已知物体，估它的 6-DoF 位姿（x、y、z、roll、pitch、yaw）。这件事在抓取里是核心。经典做法是 PoseCNN（Xiang 等，2018）、DenseFusion（Wang 等，2019），后来 FoundationPose（NVIDIA，2024）做到了对未见物体的零样本 pose estimation，是这一线少数被 LLM 浪潮推着前进的工作。
+**Pose estimation**：对一个已知物体，估它的 6-DoF 位姿（x、y、z 平移加 roll、pitch、yaw 旋转，共六个数）。这件事在抓取里是核心。经典做法是 PoseCNN（Xiang 等，2018）、DenseFusion（Wang 等，2019），后来 FoundationPose（NVIDIA，2024）做到了对未见物体的零样本 pose estimation，是这一线少数被 LLM 浪潮推着前进的工作。
 
-**SLAM 前端**：相机自己在世界里的位姿。ORB-SLAM3（Campos 等，2021）、VINS-Fusion（HKUST，2018）、Kimera（MIT，2020）这一线在视觉惯性里跑了很久。室外大场景这两年被 Gaussian Splatting 类的 dense reconstruction 推了一把，但 SLAM 前端的位姿估计本身还是 feature-based 的天下。
+**SLAM 前端**（边走边定位的几何骨架）：相机自己在世界里的位姿。ORB-SLAM3（Campos 等，2021）、VINS-Fusion（HKUST，2018，视觉惯性紧耦合）、Kimera（MIT，2020）这一线在视觉惯性里跑了很久。室外大场景这两年被 Gaussian Splatting 类的 dense reconstruction 推了一把，但 SLAM 前端的位姿估计本身还是 feature-based 的天下。
 
 这套栈每一块都成熟、都有 benchmark、都能写 unit test。它不够的地方第 1 章已经讲过：**中间表示是固定类别的 bounding box 和深度图，没有语义弹性**。你训了一个能识别 80 个 COCO 类的 detector，部署到家庭场景里看到一个"小米电饭煲"，它要么把它叫成 "microwave"，要么干脆给个低置信度的 "appliance"，反正不会告诉你这玩意是煮饭的。这是经典感知栈的硬限制，不是工程问题，是设定问题。
 
