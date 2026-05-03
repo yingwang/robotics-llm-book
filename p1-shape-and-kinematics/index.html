@@ -517,6 +517,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        各形态的典型参数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dof" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -528,7 +539,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         关节、连杆、末端、底座
@@ -550,7 +561,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         工作空间、奇异点、关节限位
@@ -583,7 +594,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#ml-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML 栈 vs 机器人栈：一张对照表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器人项目第一周该做的事
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         几个该有的直觉
@@ -594,7 +627,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         练习
@@ -1386,6 +1419,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        各形态的典型参数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dof" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1397,7 +1441,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         关节、连杆、末端、底座
@@ -1419,7 +1463,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         工作空间、奇异点、关节限位
@@ -1452,7 +1496,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#ml-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ML 栈 vs 机器人栈：一张对照表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        机器人项目第一周该做的事
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         几个该有的直觉
@@ -1463,7 +1529,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         练习
@@ -1507,6 +1573,127 @@
 <p><strong>移动操作 (mobile manipulation)</strong>。底盘 + 一只到两只胳膊。Mobile ALOHA、Hello Robot Stretch、Apptronik Apollo 都是。家庭机器人形态战的主战场之一。</p>
 <p>把这五种记住，全书所有"那家公司在做什么"基本都能定位。后面要讲的 VLA、teleop、sim2real，跟具体形态都有关，但不会跳出这个谱。</p>
 <hr />
+<h2 id="_2">各形态的典型参数<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>光记名字不够。读 paper 看 demo 时一句"60-DoF humanoid carries 25 kg payload"要能立刻判断它在不在合理范围。下面这张表是 2026 年初典型参数的速查，价格区间是公开能查到的最低参考价（DIY 套件、研究价或量产价，括号里说明）。</p>
+<table>
+<thead>
+<tr>
+<th>形态</th>
+<th>代表机器</th>
+<th>主要 DoF</th>
+<th>自重 (kg)</th>
+<th>负载 (kg)</th>
+<th>reach / 行走速度</th>
+<th>价格区间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工业单臂</td>
+<td>Universal Robots UR5e</td>
+<td>6</td>
+<td>21</td>
+<td>5</td>
+<td>850 mm</td>
+<td>$25-40k</td>
+</tr>
+<tr>
+<td>协作单臂</td>
+<td>Franka Research 3</td>
+<td>7</td>
+<td>18</td>
+<td>3</td>
+<td>855 mm</td>
+<td>$40-55k (研究)</td>
+</tr>
+<tr>
+<td>双臂研究</td>
+<td>ALOHA (双 ViperX-300s)</td>
+<td>6×2</td>
+<td>5+5</td>
+<td>0.75×2</td>
+<td>750 mm</td>
+<td>~$32k (整套)</td>
+</tr>
+<tr>
+<td>仓储 AMR</td>
+<td>Locus LocusBot</td>
+<td>0 (轮)</td>
+<td>100+</td>
+<td>30-90</td>
+<td>1.8 m/s</td>
+<td>RaaS 30 美元/小时</td>
+</tr>
+<tr>
+<td>四足</td>
+<td>Unitree Go2</td>
+<td>12</td>
+<td>15</td>
+<td>7</td>
+<td>3.7 m/s</td>
+<td>$1.6-3.5k</td>
+</tr>
+<tr>
+<td>四足旗舰</td>
+<td>Boston Dynamics Spot</td>
+<td>12</td>
+<td>32.5</td>
+<td>14</td>
+<td>1.6 m/s</td>
+<td>~$75k</td>
+</tr>
+<tr>
+<td>国产双足</td>
+<td>Unitree G1</td>
+<td>23-29</td>
+<td>35</td>
+<td>3-4</td>
+<td>2 m/s</td>
+<td>$16-90k</td>
+</tr>
+<tr>
+<td>美系双足</td>
+<td>Figure 02</td>
+<td>~30</td>
+<td>~70</td>
+<td>25</td>
+<td>1.2 m/s</td>
+<td>不公开</td>
+</tr>
+<tr>
+<td>美系双足</td>
+<td>Tesla Optimus Gen 3</td>
+<td>~28</td>
+<td>~57</td>
+<td>20</td>
+<td>1 m/s</td>
+<td>不公开</td>
+</tr>
+<tr>
+<td>移动操作</td>
+<td>Mobile ALOHA</td>
+<td>14 + 轮</td>
+<td>~50</td>
+<td>0.75×2</td>
+<td>1.5 m/s</td>
+<td>~$32k (DIY)</td>
+</tr>
+<tr>
+<td>移动操作</td>
+<td>Apptronik Apollo</td>
+<td>~30 + 轮</td>
+<td>~73</td>
+<td>25</td>
+<td>1.5 m/s</td>
+<td>不公开</td>
+</tr>
+</tbody>
+</table>
+<p>几个看表的快速 sanity check：</p>
+<p><strong>自重和负载的比通常 5-15:1</strong>。Spot 32.5 kg 抬 14 kg 已经是这一档里很激进的设计，靠的是腿强度+QDD 关节的高 torque density。Figure 02 70 kg 抬 25 kg 也是同档。这个比例直接决定能不能搬包裹、抬纸箱、拎水壶。看一台机器人的 spec 第一件事就是用这个比衡量。</p>
+<p><strong>双足比四足贵一个数量级</strong>，主要不是关节多 (双足 25-30 vs 四足 12)，是因为双足要时刻平衡，关节扭矩、传感器、控制系统都更贵。Unitree G1 把双足压到 1.6 万美元起步是国产供应链做的事，第 11 章会单独讲。</p>
+<p><strong>研究价 vs 量产价 vs 不公开</strong>。研究价是一台一台卖的小批量价，比真实成本高 30-50%。量产价是规模化之后的实际成本下界。"不公开"通常意味着公司自己也不确定 BOM 能压到哪 - Figure 和 Optimus 都在这一档，只 vague 说"长期目标 2-3 万美元"，没人押过这个数字。</p>
+<hr />
 <h2 id="dof">自由度 (DoF)：维度数<a class="headerlink" href="#dof" title="Permanent link">&para;</a></h2>
 <p>DoF (degrees of freedom) 是机器人这一行最常用的一个词。<strong>它就是控制空间的维度数</strong>。</p>
 <p>对 ML 人来说最直接的类比：你训一个网络，输出一个 K 维向量去打到电机上，K 就是 DoF。</p>
@@ -1520,7 +1707,7 @@
 <p><strong>DoF 跟成本和控制难度都呈超线性关系</strong>。原因是每一个关节都要：电机 + 减速器 + 编码器 + 走线 + 机械结构 + 控制律。35 DoF 的人形比 6 DoF 的工业臂贵不止 6 倍，控制难度差几个数量级。这是为什么第 11 章会反对人形必然论。</p>
 <p>DoF 不等于"能做的事"。一个好的 6 DoF 机械臂能做的事比一个 30 DoF 的劣质双足多得多。<strong>自由度多是潜力，不是成绩</strong>。</p>
 <hr />
-<h2 id="_2">关节、连杆、末端、底座<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">关节、连杆、末端、底座<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>机器人最基本的几个词，全书反反复复用：</p>
 <ul>
 <li><strong>link (连杆)</strong>：刚体段，比如大臂、小臂。</li>
@@ -1538,7 +1725,7 @@
 <p>IK 是经典机器人栈的核心痛点之一。多解的存在意味着"目标 6 个数 → 关节 7 个数"是欠定的，你需要再加约束（避奇异点、避自碰撞、最小关节运动）才能选出一组。这就是 MoveIt（ROS 里的运动规划库）做的事。</p>
 <p>VLA 跟这件事的关系在第 3 章会讲。简单说，VLA 可以选择直接输出关节角（绕过 IK），也可以输出末端位姿（让下游 IK 求解器解）。两种选择各有代价。</p>
 <hr />
-<h2 id="_3">工作空间、奇异点、关节限位<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">工作空间、奇异点、关节限位<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>几个工程上的硬约束。</p>
 <p><strong>工作空间 (workspace)</strong>：末端能达到的所有位置的集合。一个 6 DoF 机械臂的工作空间是个有限的近球形区域，正前方臂展之外的东西它够不到。</p>
 <p><strong>关节限位 (joint limits)</strong>：每个关节的转动范围有限。人的肘关节大概 0-150 度，机器人的肘关节通常是 -120 到 +120 度这种。任何 IK 解都要落在所有关节的限位区间内。</p>
@@ -1560,7 +1747,77 @@
 <p><strong>Gazebo / Isaac Sim / MuJoCo</strong>。仿真器。第 7 章会展开。</p>
 <p>ML 人来到机器人这一行最大的环境冲击是：<strong>这边不是装个 pip install torch 就能写代码的世界</strong>。一个工程项目要装 ROS、装 driver、跑 calibration、配 URDF，调试链路远比 LLM 那边长。LeRobot (HuggingFace, 2024 起) 是 PyTorch 这一边在尝试把这件事简化的工作，目前也只覆盖了一小段。</p>
 <hr />
-<h2 id="_4">几个该有的直觉<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="ml-vs">ML 栈 vs 机器人栈：一张对照表<a class="headerlink" href="#ml-vs" title="Permanent link">&para;</a></h2>
+<p>ML 那一边一句 <code>pip install torch</code> 你就上路了。机器人这边没有这种快捷键。下面这张表把两边的对应关系列清楚，遇到一个不熟的工具往这张表上一对，大致知道它在干什么：</p>
+<table>
+<thead>
+<tr>
+<th>ML 那边</th>
+<th>机器人这边</th>
+<th>区别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PyTorch / TensorFlow</td>
+<td>ROS2 + ros_control</td>
+<td>不是训练框架，是消息总线 + 实时控制器接口</td>
+</tr>
+<tr>
+<td>pip / conda</td>
+<td>rosdep + apt</td>
+<td>系统级依赖更多，版本锁更严，跨发行版兼容差</td>
+</tr>
+<tr>
+<td>Hydra / OmegaConf</td>
+<td>ROS2 launch.py / params yaml</td>
+<td>启动多节点的配置</td>
+</tr>
+<tr>
+<td>Jupyter / VSCode</td>
+<td>RViz / Foxglove</td>
+<td>可视化是 3D 场景 + 多通道时序，不是 dataframe</td>
+</tr>
+<tr>
+<td>TensorBoard / W&amp;B</td>
+<td>Foxglove / PlotJuggler / rqt_plot</td>
+<td>实时多通道时序，不是回合级 metric</td>
+</tr>
+<tr>
+<td>HuggingFace Hub</td>
+<td>LeRobot Hub / OXE</td>
+<td>模型 + 演示数据混着传，格式还在收敛</td>
+</tr>
+<tr>
+<td>dataset (parquet, jsonl)</td>
+<td>rosbag (.bag, .mcap)</td>
+<td>多模态时间序列容器</td>
+</tr>
+<tr>
+<td><code>model.eval()</code></td>
+<td>safety controller / e-stop</td>
+<td>部署时更怕错，硬件级保护是必须</td>
+</tr>
+<tr>
+<td>Slurm / Ray</td>
+<td>ROS launch + system services</td>
+<td>编排是单机多进程为主，不是集群</td>
+</tr>
+</tbody>
+</table>
+<p>LeRobot 是这两年在两边之间架桥的工作。它在 PyTorch 之上提供 dataset 标准 (LeRobotDataset 格式)、policy 训练循环、teleop 接口、和一些 baseline policy。ML 人能用熟悉的 transformers 风格代码训一个 ACT 或 diffusion policy，跑到 ALOHA / SO-100 / Koch 这几款支持的硬件上。<strong>它的边界</strong>：只覆盖单臂或双臂操作，不接 ROS，不做导航，不做规划。所以学完 LeRobot 你能跑 demo，但项目部署仍然要回去学 ROS。</p>
+<p>工具栈这件事 ML 人最常踩的坑：<strong>以为读 paper 学算法就够，实际项目里 80% 的时间花在 driver、calibration、tf2 配置、ROS topic 调试这些上</strong>。这不是机器人这一行设计差，是物理世界本身决定的。一个机械臂跟一只 GPU 的根本区别就是前者会发热、会松螺丝、会因为电压不稳跳闸。</p>
+<hr />
+<h2 id="_5">机器人项目第一周该做的事<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>如果你 ML 出身，刚被分到一个机器人组，老板说"做个 demo 出来"。<strong>第一周不是去读 RT-2 paper</strong>，是去做下面这五件事，做完你才有底再去读 paper。</p>
+<p><strong>1. 让机器人动起来</strong>。装 driver，写一个 hello-world 让它从 home pose（机械臂的安全初始姿态）移到一个固定的目标位姿，然后回来。这一步通常会让你撞上版本不兼容、固件升级、网络配置、力矩限制太低导致动不起来这一类问题。<strong>这是你认识硬件最快的方式</strong>。</p>
+<p><strong>2. 录一段 ros bag</strong>。开摄像头、开关节状态、开 IMU，让机器人随便动几下，记录 30 秒。把 bag 文件回放出来在 RViz 里看一遍。<strong>学会 rosbag 读写比学会任何一篇 paper 重要</strong>，因为后面所有数据采集和 debug 都基于它。</p>
+<p><strong>3. 跑一次 hand-eye calibration</strong>（手眼标定，把相机和机械臂的相对位姿算出来）。拿一个 ArUco 板或 charuco 板放在机械臂面前，机械臂走 20 个不同位姿，每个位姿拍一张照片，扔进 OpenCV 的 calibration 例程算出相机到末端的变换矩阵。<strong>没做过这一步的人不知道为什么"视觉看到杯子在那儿，机械臂伸过去差 5 cm"是常态</strong>。这件事经典栈每个项目第一周都要做。</p>
+<p><strong>4. 把视觉、本体感觉、规划路径在 RViz 里同时画出来</strong>。让机器人跑一个简单的轨迹，你一边看 RViz 里的 3D 场景一边看终端里的 joint state log，<strong>学会同时盯三块屏幕和一台真机</strong>。这是机器人 debug 的标准姿势，跟 ML 人坐在一台屏幕前看 loss 曲线完全不一样。</p>
+<p><strong>5. 收一条 teleop demo</strong>。借一个 ALOHA、Gello 或 phone-based teleop 接口（LeRobot 文档里有最简单的），让一个工程师手动遥控机器人完成一个最简单的 pick-and-place，整段录下来。回放时观察自己的"操作员风格"：在哪儿犹豫、在哪儿用力、抓得多快多稳。<strong>这一段 demo 是你后面所有数据采集决策的基线</strong>。</p>
+<p>做完这五件事大概一周，你不会读任何论文。这是对的。<strong>机器人这一行先有体感再有理论是工作的</strong>。当你过两周回头读 RT-2 paper，每一段都会比 ML 出身的同事懂得多。</p>
+<hr />
+<h2 id="_6">几个该有的直觉<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>把这一章压成几句 takeaway：</p>
 <ul>
 <li><strong>DoF 是控制空间的维度数</strong>。机械臂 6-7、人形 25-35、灵巧手再加 10-20。维度多代价超线性涨。</li>
@@ -1570,7 +1827,7 @@
 <li>最后：<strong>机器人写代码的痛苦不在算法，在调试链路</strong>。一个 bug 可能要重启 driver、重 calibrate、换电池、检查 ROS topic 频率。这是这一行 ML 人转过来最不适应的部分。</li>
 </ul>
 <hr />
-<h2 id="_5">练习<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_7">练习<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <p><strong>找一台你最熟悉的机器人</strong> (Tesla Optimus、Unitree G1、Figure 02、随便挑)，<strong>数它的 DoF</strong>：双腿 + 躯干 + 双臂 + 双手 + 头，全部加起来。记住这个数。后面看 paper 提到 "32-DoF humanoid" 时你就有体感。</p>
 <p><strong>读 ALOHA 的 URDF</strong> (在 Stanford ALOHA 仓库里)。不需要懂每一行 XML，但翻看 link 树和 joint 列表，对一个真实机器人在代码里长什么样有个具象认识。</p>
 <p><strong>找一个 ROS2 的 hello-world 教程</strong> 跑一遍。哪怕只是 publisher / subscriber 来回打印一个数字。<strong>理解 ROS 的 pub/sub 心智模型，比理解某个具体算法更影响你后面 debug 机器人项目的速度</strong>。</p>
